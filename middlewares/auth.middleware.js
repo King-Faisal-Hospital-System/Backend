@@ -9,7 +9,7 @@ export const authorize = (req, res, next) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         if(!decoded) return res.status(403).json({ message : "Invalid token" });
         req.user = decoded;
-        next()
+        next();
     } catch (error) {
         console.log(error);
         return res.status(403).json({ message : "Internal server error" })

@@ -33,13 +33,11 @@ export const getProducts = async (req, res) => {
 };
 
 export const updateProductPrice = async (req, res) => {
-    const { id } = req.user;
     const { productId } = req.params;
     const { unit_price } = req.body;
     try {
         const product = await Product.findById(productId);
         if(!product) return res.status(404).json({ message : "Product not found" });
-        if(product.createdBy.toString() !== id) return res.status(403).json({ message : "You are not authorized to update this product" });
         if(!unit_price) return res.status(400).json({ message : "Please provide unit price" });
         if(unit_price < 0) return res.status(400).json({ message : "Unit price cannot be negative" });
         product.unit_price = unit_price;

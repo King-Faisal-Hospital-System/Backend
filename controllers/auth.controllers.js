@@ -5,7 +5,7 @@ import { generateTokenAndSetCookie } from "../utils/cookie.utils.js";
 export const register = async (req, res) => {
     const { fullname, username, email, phone_number, password, role } = req.body;
     try {
-        const existingUser = await User.findOne({ $or: [{ email: email }, { username: username }] });
+        const existingUser = await User.findOne({ $or: [{ email: email }, { username: username }, { phone_number : phone_number }] });
         if (existingUser) return res.status(403).json({ message: "User already exists" });
         const salt = await bcrypt.genSalt(12);
         const hashedPassword = await bcrypt.hash(password, salt)
@@ -15,7 +15,8 @@ export const register = async (req, res) => {
             email: email,
             password: hashedPassword,
             phone_number : phone_number,
-            role : role
+            role : role,
+            isVerified : role === "ADMIN" ? true : false
         });
         await user.save();
         return res.status(201).json({ message: "Registered successfully" })
@@ -34,7 +35,8 @@ export const login = async (req, res) => {
         if (!isPasswordValid) {
             return res.status(403).json({ message: "Incorrect password" });
         };
-        generateTokenAndSetCookie(user._id, res);
+        if(!user.isVerified) return res.status(403).json({ message : "You are not verified, wait for verification"})
+        generateTokenAndSetCookie(user, res);
         return res.status(200).json({ message: "Logged in successfully" });
     } catch (error) {
         console.log(error);

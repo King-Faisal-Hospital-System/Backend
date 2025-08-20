@@ -2,10 +2,11 @@ import jwt from "jsonwebtoken";
 import { configDotenv } from "dotenv";
 configDotenv()
 
-export const generateTokenAndSetCookie = (userId, res) => {
+export const generateTokenAndSetCookie = (user, res) => {
     try {
         const payload = {
-            id : userId
+            id : user._id,
+            role : user.role
         };
         const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn : "15d" });
         res.cookie("token", token, {
