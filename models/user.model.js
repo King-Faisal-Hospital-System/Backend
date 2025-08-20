@@ -7,7 +7,9 @@ const userSchema = mongoose.Schema({
     phone_number : { type : String, required : true, unique : true },
     password: { type: String, required: true },
     role: { type: String, enum: ["ADMIN", "STOCK_MANAGER", "SUPPLIER"], default : "ADMIN" },
-    isVerified : { type : Boolean, default : false }
+    isVerified : { type : Boolean, default : false },
+    company_name : { type : String },
+    company_phone : { type : String }
 }, { timestamps: true });
 
 const User = mongoose.model("users", userSchema);

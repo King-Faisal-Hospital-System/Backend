@@ -13,7 +13,9 @@ export const register = async (req, res) => {
             fullname: fullname,
             username: username,
             email: email,
-            password: hashedPassword
+            password: hashedPassword,
+            phone_number : phone_number,
+            role : role
         });
         await user.save();
         return res.status(201).json({ message: "Registered successfully" })

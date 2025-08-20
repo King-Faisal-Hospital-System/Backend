@@ -9,7 +9,7 @@ export const createProduct = async (req, res) => {
         if (existingProduct) return res.status(403).json({ message: "Product already exists" });
         const product = new Product({
             name: name,
-            unit_price: unit_price,
+            price: unit_price,
             form: form,
             createdBy: id
         });
