@@ -1,17 +1,20 @@
-import Stock from "../models/stock.model.js"
+import Stock from "../models/stock.model.js";
+import Product from "../models/product.model.js"
 import { issueInvoiceToStock } from "./invoice.services.js";
 
 export const registerStock = async (stockDetails, id, res) => {
     try {
         const existingStock = await Stock.findOne({ $or : [{ product : stockDetails.productId }]});
         if(existingStock) return res.status(403).json({ message : "Stock of this product already exists" });
+        const product = await Product.findById(stockDetails.productId);
         const stock = new Stock({
             product : stockDetails.productId,
             name : stockDetails.name ? stockDetails.name : "",
             supplier : [stockDetails.supplierId],
             quantity : stockDetails.initial_quantity ? stockDetails.initial_quantity : 0,
             createdBy : id,
-            requested : stockDetails.requested_amount ? stockDetails.requested_amount : 0
+            requested : stockDetails.requested_amount ? stockDetails.requested_amount : 0,
+            unit_price : product.price
         });
         await stock.save();
     } catch (error) {
@@ -47,7 +50,13 @@ export const supplierAgreeStockSupply = async (stockId, supplierId, res) => {
         const stock = await Stock.findById(stockId);
         if(!stock) return res.status(404).json({ message : "Stock not found" });
         stock.supplyStatus = "IN_PROGRESS";
-        //await issueInvoiceToStock(supplierId, stockId, stock.product)
+        const invoiceDetails = {
+            stockId : stockId,
+            productId : stock.product,
+            supplierId : supplierId,
+            amount : stock.total_value
+        }
+        await issueInvoiceToStock(invoiceDetails)
         await stock.save();
     } catch (error) {
         throw new Error(error)
@@ -65,7 +74,7 @@ export const supplierRejectStockSupply = async (stockId, res) => {
     }
 }
 
-export const approveStockSupply = async (stockId, res) => {
+export const managerAproveStockSupply = async (stockId, res) => {
     try {
         const stock = await Stock.findById(stockId);
         if(!stock) return res.status(404).json({ message : "Stock not found" });

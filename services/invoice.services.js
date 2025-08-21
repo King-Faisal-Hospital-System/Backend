@@ -1,13 +1,14 @@
 import Invoice from "../models/invoice.model.js"
 
-export const issueInvoiceToStock = async (supplierId, stockId, productId, amount, notes) => {
+export const issueInvoiceToStock = async (invoiceDetails) => {
     try {
         const invoice = new Invoice({
-            stock : stockId,
-            product : productId,
-            supplier : supplierId,
-            amount : amount,
-            notes : notes ? notes : ""
+            stock : invoiceDetails.stockId,
+            product : invoiceDetails.productId,
+            supplier : invoiceDetails.supplierId,
+            amount : invoiceDetails.amount,
+            notes : invoiceDetails.notes ? invoiceDetails.notes : "",
+            type : invoiceDetails.type ? invoiceDetails.type : "REGULAR"
         });
         await invoice.save();
     } catch (error) {
