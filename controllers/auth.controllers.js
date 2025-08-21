@@ -1,11 +1,11 @@
 import User from "../models/user.model.js";
-import bcrypt from "bcryptjs"
-import { generateTokenAndSetCookie } from "../utils/cookie.utils.js";
+import bcrypt from "bcryptjs";
+import { signIn, supplierLogin } from "../services/auth.services.js";
 
 export const register = async (req, res) => {
     const { fullname, username, email, phone_number, password, role } = req.body;
     try {
-        const existingUser = await User.findOne({ $or: [{ email: email }, { username: username }, { phone_number : phone_number }] });
+        const existingUser = await User.findOne({ $or: [{ email: email }, { username: username }, { phone_number: phone_number }] });
         if (existingUser) return res.status(403).json({ message: "User already exists" });
         const salt = await bcrypt.genSalt(12);
         const hashedPassword = await bcrypt.hash(password, salt)
@@ -14,9 +14,9 @@ export const register = async (req, res) => {
             username: username,
             email: email,
             password: hashedPassword,
-            phone_number : phone_number,
-            role : role,
-            isVerified : role === "ADMIN" ? true : false
+            phone_number: phone_number,
+            role: role,
+            isVerified: role === "ADMIN" ? true : false
         });
         await user.save();
         return res.status(201).json({ message: "Registered successfully" })
@@ -27,17 +27,15 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password, role } = req.body;
+    if (!role) return res.status(404).json({ message: "Role not found" })
     try {
-        const user = await User.findOne({ email: email });
-        if (!user) return res.status(404).json({ message: "User not found" });
-        const isPasswordValid = await bcrypt.compare(password, user.password);
-        if (!isPasswordValid) {
-            return res.status(403).json({ message: "Incorrect password" });
+        if (role === "ADMIN" || role === "STOCK_MANAGER") {
+            await signIn(email, password,role, res);
+            return res.status(200).json({ message: "Login successful" })
         };
-        if(!user.isVerified) return res.status(403).json({ message : "You are not verified, wait for verification"})
-        generateTokenAndSetCookie(user, res);
-        return res.status(200).json({ message: "Logged in successfully" });
+        await supplierLogin(email, password, role, res);
+        return res.status(200).json({ message: "Login successful" })
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: "Internal server error" })
