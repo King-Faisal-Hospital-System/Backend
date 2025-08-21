@@ -1,13 +1,13 @@
 import mongoose from "mongoose";
 
 const invoiceSchema = mongoose.Schema({
-    type : { type : String, enum : ["PROFORMA", "REGULAR"], default : "REGULAR" },
-    amount : { type : Number, required : true },
-    notes : { type : String },
-    supplier : { type : mongoose.Schema.Types.ObjectId, ref : "Supplier" },
-    stock : { type : mongoose.Schema.Types.ObjectId, ref : "Stock" },
-    product : { type: mongoose.Schema.Types.ObjectId, ref : "Product" }
-}, { timestamps : true });
+    type: { type: String, enum: ["PROFORMA", "REGULAR"], default: "REGULAR" },
+    purchase_order: { type: mongoose.Schema.Types.ObjectId, ref: "PurchaseOrder" },
+    grn: { type: mongoose.Schema.Types.ObjectId, ref: "GoodsReceiveNotice" },
+    total_value: { type: Number },
+    notes: { type: String },
+    status: { type: String, enum: ["PENDING", "PAID"], default: "PENDING" }
+}, { timestamps: true });
 
 const Invoice = mongoose.model("invoices", invoiceSchema);
 export default Invoice

@@ -5,7 +5,6 @@ const productSchema = mongoose.Schema({
     price: { type: Number },
     category: { type: String, enum: ["TABLETS", "CAPSULE", "SYRUP", "INJECTION", "CREAM", "DROPS"], required : true },
     form: { type: String, enum: ["PIECES", "BOXES", "BOTTLES", "PACKS", "KILOGRAMS", "LITERS"] },
-    quantity: { type: Number, default: 0 },
     expiry : { type : Date, required : true }
 }, { timestamps: true });
 

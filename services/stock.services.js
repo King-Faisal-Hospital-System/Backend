@@ -1,87 +1,42 @@
 import Stock from "../models/stock.model.js";
-import Product from "../models/product.model.js"
-import { issueInvoiceToStock } from "./invoice.services.js";
+import Product from "../models/product.model.js";
+import PurchaseOrder from "../models/purchaseOrder.model.js";
+import { createPurchaseOrder } from "./purchaseOrder.services.js";
+import { issueGRN } from "./grn.services.js";
 
-export const registerStock = async (stockDetails, id, res) => {
+export const registerStock = async (stockDetails, res) => {
     try {
-        const existingStock = await Stock.findOne({ $or : [{ product : stockDetails.productId }]});
-        if(existingStock) return res.status(403).json({ message : "Stock of this product already exists" });
-        const product = await Product.findById(stockDetails.productId);
+        const existingStock = await Stock.findOne({ product: stockDetails.productId });
+        if (existingStock) return res.status(403).json({ message: "Stock of this product already exists" });
+        const product = await Product.findById(stockDetails.productId)
         const stock = new Stock({
-            product : stockDetails.productId,
-            name : stockDetails.name ? stockDetails.name : "",
-            supplier : [stockDetails.supplierId],
-            quantity : stockDetails.initial_quantity ? stockDetails.initial_quantity : 0,
-            createdBy : id,
-            requested : stockDetails.requested_amount ? stockDetails.requested_amount : 0,
-            unit_price : product.price
+            name: stockDetails.name,
+            product: stockDetails.productId,
+            quantity: stockDetails.initial_quantity ? stockDetails.initial_quantity : 0,
+            value: product.price * stockDetails.initial_quantity
         });
         await stock.save();
     } catch (error) {
-        throw new Error(error)        
+        throw new Error(error)
     }
 };
 
-export const renameStock = async (stockId, name, res) => {
+export const requestProductQuantityFromSupplier = async (userId, productId, supplierId, stockId, quantity) => {
     try {
-        const stock = await Stock.findById(stockId);
-        if(!stock) return res.status(404).json({ message : "Stock not found" });
-        stock.name = name;
-        await stock.save();
+        const product = await Product.findById(productId)
+        await createPurchaseOrder(userId, supplierId, stockId, product, quantity);
     } catch (error) {
         throw new Error(error)
     }
 };
 
-export const changeSupplier = async (stockId, newSupplierId, res) => {
+export const approveStockSupply = async (orderId, quantity_received, res) => {
     try {
-        const stock = await Stock.findById(stockId);
-        if(!stock) return res.status(404).json({ message : "Stock not found" });
-        if(stock.supplyStatus === ("SUPPLIED" || "IN_PROGRESS")) return res.status(403).json({ message : "Supplier has agreed to deliver or already supplied" });
-        stock.supplier = newSupplierId;
-        await stock.save()
-    } catch (error) {
-        throw new Error(error);
-    }
-};
-
-export const supplierAgreeStockSupply = async (stockId, supplierId, res) => {
-    try {
-        const stock = await Stock.findById(stockId);
-        if(!stock) return res.status(404).json({ message : "Stock not found" });
-        stock.supplyStatus = "IN_PROGRESS";
-        const invoiceDetails = {
-            stockId : stockId,
-            productId : stock.product,
-            supplierId : supplierId,
-            amount : stock.total_value
-        }
-        await issueInvoiceToStock(invoiceDetails)
-        await stock.save();
-    } catch (error) {
-        throw new Error(error)
-    }
-};
-
-export const supplierRejectStockSupply = async (stockId, res) => {
-    try {
-        const stock = await Stock.findById(stockId);
-        if(!stock) return res.status(404).json({ message : "Stock not found" });
-        stock.supplyStatus = "REJECTED";
-        await stock.save();
+        const purchase_order = await PurchaseOrder.findById(orderId);
+        if(!purchase_order) return res.status(404).json({ message : "Purchase Order not found" });
+        if(purchase_order.status !== "CONFIRMED") return res.status(403).json({ message : "Purchase order not confirmed or rejected" })
+        await issueGRN(purchase_order, quantity_received);
     } catch (error) {
         throw new Error(error)
     }
 }
-
-export const managerAproveStockSupply = async (stockId, res) => {
-    try {
-        const stock = await Stock.findById(stockId);
-        if(!stock) return res.status(404).json({ message : "Stock not found" });
-        stock.supplyStatus = "SUPPLIED";
-        stock.received = stock.requested;
-        await stock.save();
-    } catch (error) {
-        throw new Error(error)
-    }
-};
