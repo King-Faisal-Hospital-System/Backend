@@ -40,3 +40,12 @@ export const getAllSuppliers = async () => {
         throw new Error(error)
     }
 };
+
+export const getAllStocks = async () => {
+    try {
+        const stocks = await Stock.find();
+        return stocks
+    } catch (error) {
+        throw new Error(error)
+    }
+}
