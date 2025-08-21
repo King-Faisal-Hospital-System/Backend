@@ -1,4 +1,5 @@
 import Stock from "../models/stock.model.js"
+import { issueInvoiceToStock } from "./invoice.services.js";
 
 export const registerStock = async (stockDetails, id, res) => {
     try {
@@ -39,4 +40,39 @@ export const changeSupplier = async (stockId, newSupplierId, res) => {
     } catch (error) {
         throw new Error(error);
     }
+};
+
+export const supplierAgreeStockSupply = async (stockId, supplierId, res) => {
+    try {
+        const stock = await Stock.findById(stockId);
+        if(!stock) return res.status(404).json({ message : "Stock not found" });
+        stock.supplyStatus = "IN_PROGRESS";
+        //await issueInvoiceToStock(supplierId, stockId, stock.product)
+        await stock.save();
+    } catch (error) {
+        throw new Error(error)
+    }
+};
+
+export const supplierRejectStockSupply = async (stockId, res) => {
+    try {
+        const stock = await Stock.findById(stockId);
+        if(!stock) return res.status(404).json({ message : "Stock not found" });
+        stock.supplyStatus = "REJECTED";
+        await stock.save();
+    } catch (error) {
+        throw new Error(error)
+    }
 }
+
+export const approveStockSupply = async (stockId, res) => {
+    try {
+        const stock = await Stock.findById(stockId);
+        if(!stock) return res.status(404).json({ message : "Stock not found" });
+        stock.supplyStatus = "SUPPLIED";
+        stock.received = stock.requested;
+        await stock.save();
+    } catch (error) {
+        throw new Error(error)
+    }
+};

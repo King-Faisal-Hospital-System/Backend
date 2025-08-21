@@ -48,4 +48,16 @@ export const getAllStocks = async () => {
     } catch (error) {
         throw new Error(error)
     }
+};
+
+export const deleteThisStock = async (stockId, res) => {
+    try {
+        const stock = await Stock.findById(stockId);
+        if(!stock) return res.status(404).json({ message : "Stock not found" });
+        if(stock.supplyStatus === "IN_PROGRESS") return res.status(403).json({ message : "Stock already in progress" });
+        if(stock.products.length) return res.status(403).json({ message : "Stock not empty" });
+        await stock.deleteOne()
+    } catch (error) {
+        throw new Error(error)
+    }
 }

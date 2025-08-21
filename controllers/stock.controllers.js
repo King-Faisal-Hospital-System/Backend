@@ -1,5 +1,6 @@
-import { getAllStocks } from "../services/admin.services.js";
-import { changeSupplier, registerStock, renameStock } from "../services/stock.services.js";
+import { deleteThisStock, getAllStocks } from "../services/admin.services.js";
+import { issueInvoiceToStock } from "../services/invoice.services.js";
+import { changeSupplier, registerStock, renameStock, supplierAgreeStockSupply } from "../services/stock.services.js";
 
 export  const getStocks = async (req, res) => {
     try {
@@ -51,4 +52,27 @@ export const changeStockSupplier = async (req, res) => {
         console.log(error);
         return res.status(500).json({ message : "Internal server error" })
     }
-}
+};
+
+export const deleteStock = async (req, res) => {
+    const { stockId } = req.params
+    try {
+        await deleteThisStock(stockId, res);
+        return res.status(200).json({ message : "Stock deleted" })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message : "Internal server error" })
+    }
+};
+
+export const agreeStockSupply = async (req, res) => {
+    const { stockId } = req.params;
+    const { id } = req.user;
+    try {
+        await supplierAgreeStockSupply(stockId, supplierId, res);
+        return res.status(200).json({ message : `You agreed to supply stock ${stockId}`})
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message : "Internal server error" })
+    }
+};
