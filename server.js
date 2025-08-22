@@ -3,8 +3,9 @@ import cors from "cors";
 import authRouter from "./routes/auth.routes.js";
 import { connectToDatabase } from "./config/db.config.js";
 import cookieParser from "cookie-parser";
-import productRouter from "./routes/product.routes.js";
 import stockRouter from "./routes/stock.routes.js";
+import supplierRouter from "./routes/supplier.routes.js";
+import userRouter from "./routes/user.routes.js";
 
 const app = express();
 
@@ -15,8 +16,9 @@ app.use(cookieParser())
 app.use(express.json());
 
 app.use("/api/auth", authRouter);
-app.use("/api/products", productRouter);
-app.use("/api/stock", stockRouter);
+app.use("/api/users", userRouter)
+app.use("/api/stocks", stockRouter);
+app.use("/api/suppliers", supplierRouter)
 
 app.listen(PORT, async () => {
     console.log(`Server running on http://localhost:${PORT}`);

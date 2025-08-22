@@ -1,41 +1,42 @@
 import Stock from "../models/stock.model.js";
-import Product from "../models/product.model.js";
-import PurchaseOrder from "../models/purchaseOrder.model.js";
-import { createPurchaseOrder } from "./purchaseOrder.services.js";
-import { issueGRN } from "./grn.services.js";
 
 export const registerStock = async (stockDetails, res) => {
     try {
-        const existingStock = await Stock.findOne({ product: stockDetails.productId });
+        const existingStock = await Stock.findOne({ $and: [{ product_name: stockDetails.product_name }, { category: stockDetails.category }, { form: stockDetails.form }] });
         if (existingStock) return res.status(403).json({ message: "Stock of this product already exists" });
-        const product = await Product.findById(stockDetails.productId)
-        const stock = new Stock({
-            name: stockDetails.name,
-            product: stockDetails.productId,
-            quantity: stockDetails.initial_quantity ? stockDetails.initial_quantity : 0,
-            value: product.price * stockDetails.initial_quantity
-        });
+        const stock = new Stock(stockDetails);
         await stock.save();
     } catch (error) {
         throw new Error(error)
     }
 };
 
-export const requestProductQuantityFromSupplier = async (userId, productId, supplierId, stockId, quantity) => {
+export const retrieveAllStocks = async () => {
     try {
-        const product = await Product.findById(productId)
-        await createPurchaseOrder(userId, supplierId, stockId, product, quantity);
+        const stocks = await Stock.find();
+        return stocks
     } catch (error) {
         throw new Error(error)
     }
 };
 
-export const approveStockSupply = async (orderId, quantity_received, res) => {
+export const retriveStock = async (stockId, res) => {
     try {
-        const purchase_order = await PurchaseOrder.findById(orderId);
-        if(!purchase_order) return res.status(404).json({ message : "Purchase Order not found" });
-        if(purchase_order.status !== "CONFIRMED") return res.status(403).json({ message : "Purchase order not confirmed or rejected" })
-        await issueGRN(purchase_order, quantity_received);
+        const stock = await Stock.findById(stockId).populate("supplier")
+        if(!stock) return res.status(404).json({ message : "Stock not found" });
+        return stock
+    } catch (error) {
+        throw new Error(error)
+    }
+}
+
+/* Stock Management Helper functions */
+
+export const requestStockReFill = async (stockId) => {
+    try {
+        const stock = await Stock.findById(stockId);
+        if(!stock) return res.status(404).json({ message : "Stock not found" });
+        
     } catch (error) {
         throw new Error(error)
     }
