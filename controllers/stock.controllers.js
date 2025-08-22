@@ -1,5 +1,7 @@
+import PurchaseOrder from "../models/purchaseOrder.model.js";
 import Stock from "../models/stock.model.js";
-import { registerStock, retrieveAllStocks, retriveStock } from "../services/stock.services.js";
+import Supplier from "../models/supplier.model.js"
+import { receiveStockRefill, registerStock, requestStockReFill, retrieveAllStocks, retriveStock } from "../services/stock.services.js";
 
 export const getAllStocks = async (req, res) => {
     try {
@@ -62,6 +64,31 @@ export const changeProductStockName = async (req, res) => {
 /* Stock Manipulation Controllers */
 
 export const requestSupplierForStockRefill = async (req, res) => {
-    const { supplierId, quantity, order_date } = req.body;
+    const { supplierId, quantity, order_date, notes, unit_price } = req.body;
+    const { stockId } = req.params;
+    const { id } = req.user;
+    try {
+        const stock = await Stock.findById(stockId);
+        if(!stock) return res.status(404).json({ message : "Stock not found" });
+        const supplier = await Supplier.findById(supplierId);
+        if(!supplier) return res.status(404).json({ message : "Supplier not found" });
+        await requestStockReFill(stock, supplier, quantity, unit_price, id, order_date, notes);
+    } catch (error) {
+        return res.status(500).json({ message : "Internal server error" })
+    }
+};
 
+export const receiveOrderToStock = async (req, res) => {
+    const { orderId, batch_number, quantity_received, notes } = req.body;
+    const { stockId } = req.params;
+    try {
+        const stock = await Stock.findById(stockId);
+        if(!stock) return res.status(404).json({ message : "Stock not found" });
+        const purchase_order = await PurchaseOrder.findById(orderId);
+        if(!purchase_order) return res.status(404).json({ message : "Purchase order not found" });
+        await receiveStockRefill(stock, purchase_order, batch_number, quantity_received, notes)
+        return res.status(200).json({ message : "Order received and updated stock" })
+    } catch (error) {
+        return res.status(500).json({ message : "Internal server error" })
+    }
 }

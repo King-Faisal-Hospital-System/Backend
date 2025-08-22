@@ -21,4 +21,13 @@ export const retrievePurchaseOrders = async () => {
     } catch (error) {
         throw new Error(error)
     }
-}
+};
+
+export const retrievePurchaseOrder = async (orderId) => {
+    try {
+        const order = await PurchaseOrder.findById(orderId);
+        return order
+    } catch (error) {
+        throw new Error(error)
+    }
+};
