@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import stockRouter from "./routes/stock.routes.js";
 import supplierRouter from "./routes/supplier.routes.js";
 import userRouter from "./routes/user.routes.js";
+import purchaseOrderRouter from "./routes/purchaseOrder.routes.js";
 
 const app = express();
 
@@ -18,7 +19,8 @@ app.use(express.json());
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter)
 app.use("/api/stocks", stockRouter);
-app.use("/api/suppliers", supplierRouter)
+app.use("/api/suppliers", supplierRouter);
+app.use("/api/orders", purchaseOrderRouter)
 
 app.listen(PORT, async () => {
     console.log(`Server running on http://localhost:${PORT}`);

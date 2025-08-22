@@ -1,4 +1,6 @@
+import PurchaseOrder from "../models/purchaseOrder.model.js";
 import Stock from "../models/stock.model.js";
+import { sendPurchaseOrderEmail } from "./email.services.js";
 
 export const registerStock = async (stockDetails, res) => {
     try {
@@ -32,10 +34,26 @@ export const retriveStock = async (stockId, res) => {
 
 /* Stock Management Helper functions */
 
-export const requestStockReFill = async (stockId) => {
+export const requestStockReFill = async (stock, supplier, quantity, unit_price, userId) => {
     try {
-        const stock = await Stock.findById(stockId);
-        if(!stock) return res.status(404).json({ message : "Stock not found" });
+        const purchase_order = new PurchaseOrder({
+            supplier : supplier._id,
+            status : "REQUESTED",
+            stock : stock._id,
+            quantity : quantity,
+            total_value : quantity * unit_price,
+            createdBy : userId
+        });
+        await purchase_order.save();
+        // Email generation and sending logic
+        await sendPurchaseOrderEmail(supplier.company_email);
+    } catch (error) {
+        throw new Error(error)
+    }
+};
+
+export const receiveStockRefill = async () => {
+    try {
         
     } catch (error) {
         throw new Error(error)

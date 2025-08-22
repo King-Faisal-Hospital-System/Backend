@@ -2,10 +2,12 @@ import mongoose from "mongoose";
 
 const poSchema = mongoose.Schema({
     supplier : { type : mongoose.Schema.Types.ObjectId, ref : "Supplier" },
-    item : { product : { type : mongoose.Schema.Types.ObjectId, ref : "Product" }, quantity : Number, unit_price : Number },
     status : { type : String, enum : ["REQUESTED", "CONFIRMED", "REJECTED"], default : "REQUESTED" },
     stock : { type : mongoose.Schema.Types.ObjectId, ref : "Stock" },
-    createdBy : { type : mongoose.Schema.Types.ObjectId, ref : "User", required : true }
+    quantity : { type : Number, required : true },
+    total_value : { type : Number },
+    createdBy : { type : mongoose.Schema.Types.ObjectId, ref : "User", required : true },
+    order_date : { type : Date }
 }, { timestamps : true });
 
 const PurchaseOrder = mongoose.model("purchase_orders", poSchema);

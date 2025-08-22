@@ -59,3 +59,9 @@ export const changeProductStockName = async (req, res) => {
     }
 };
 
+/* Stock Manipulation Controllers */
+
+export const requestSupplierForStockRefill = async (req, res) => {
+    const { supplierId, quantity, order_date } = req.body;
+
+}
