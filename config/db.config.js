@@ -8,4 +8,12 @@ export const connectToDatabase = async () => {
     } catch (error) {
         throw new Error("Error connecting to MongoDB", error);
     }
+};
+
+export const backupDB = async () => {
+    try {
+        
+    } catch (error) {
+        throw new Error(error)
+    }
 }
