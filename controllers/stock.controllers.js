@@ -89,6 +89,7 @@ export const receiveOrderToStock = async (req, res) => {
         if(!stock) return res.status(404).json({ message : "Stock not found" });
         const purchase_order = await PurchaseOrder.findById(orderId);
         if(!purchase_order) return res.status(404).json({ message : "Purchase order not found" });
+        if(purchase_order.status === "DELIVERED") return res.status(405).json({ message : "Order already received" })
         await receiveStockRefill(stock, purchase_order, batch_number, quantity_received, notes)
         return res.status(200).json({ message : "Order received and updated stock" })
     } catch (error) {
