@@ -11,7 +11,7 @@ const supplierSchema = mongoose.Schema({
     isVerified : { type : Boolean, default : false },
 }, { timestamps : true });
 
-const Supplier = mongoose.model("suppliers", supplierSchema);
+const Supplier = mongoose.model("supplier", supplierSchema);
 export default Supplier;
 
 

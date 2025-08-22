@@ -65,6 +65,7 @@ export const changeProductStockName = async (req, res) => {
 
 export const requestSupplierForStockRefill = async (req, res) => {
     const { supplierId, quantity, order_date, notes, unit_price } = req.body;
+    if(!supplierId || !quantity || !order_date || !notes || !unit_price) return res.status(403).json({ message : "All fields required" })
     const { stockId } = req.params;
     const { id } = req.user;
     try {
@@ -73,7 +74,9 @@ export const requestSupplierForStockRefill = async (req, res) => {
         const supplier = await Supplier.findById(supplierId);
         if(!supplier) return res.status(404).json({ message : "Supplier not found" });
         await requestStockReFill(stock, supplier, quantity, unit_price, id, order_date, notes);
+        return res.status(200).json({ message : "Request sent via email to the supplier" })
     } catch (error) {
+        console.log(error)
         return res.status(500).json({ message : "Internal server error" })
     }
 };
@@ -89,6 +92,7 @@ export const receiveOrderToStock = async (req, res) => {
         await receiveStockRefill(stock, purchase_order, batch_number, quantity_received, notes)
         return res.status(200).json({ message : "Order received and updated stock" })
     } catch (error) {
+        console.log(error)
         return res.status(500).json({ message : "Internal server error" })
     }
 }

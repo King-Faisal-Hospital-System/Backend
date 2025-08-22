@@ -10,7 +10,7 @@ stockRouter.get("/", authorize, authorizeRole("ADMIN", "STOCK_MANAGER"), getAllS
 stockRouter.get("/:stockId", authorize, authorizeRole("ADMIN", "STOCK_MANAGER"), getStockById);
 stockRouter.patch("/:stockId", authorize, authorizeRole("ADMIN", "STOCK_MANAGER"), changeProductStockName);
 
-stockRouter.post("/:stockId/request", authorize, authorizeRole("STOCK_MANAGER"), requestSupplierForStockRefill);
-stockRouter.post("/:stockId/receive", authorize, authorizeRole("STOCK_MANAGER"), receiveOrderToStock);
+stockRouter.post("/:stockId/request", authorize, authorizeRole("STOCK_MANAGER", "ADMIN"), requestSupplierForStockRefill);
+stockRouter.post("/:stockId/receive", authorize, authorizeRole("STOCK_MANAGER", "ADMIN"), receiveOrderToStock);
 
 export default stockRouter

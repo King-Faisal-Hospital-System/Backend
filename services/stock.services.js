@@ -49,7 +49,7 @@ export const requestStockReFill = async (stock, supplier, quantity, unit_price, 
         });
         await purchase_order.save();
         // Email generation and sending logic
-        await sendPurchaseOrderEmail(supplier.company_email);
+        // await sendPurchaseOrderEmail(supplier.company_email);
     } catch (error) {
         throw new Error(error)
     }

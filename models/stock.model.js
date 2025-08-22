@@ -12,7 +12,7 @@ const stockSchema = mongoose.Schema({
     expiry_date: { type: Date },
     notes: { type: String },
     total_value: { type: Number },
-    unit_price : { type : Number }
+    unit_price : { type : Number, default : 0 }
 }, { timestamps: true });
 
 const Stock = mongoose.model("stocks", stockSchema);
