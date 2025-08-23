@@ -31,8 +31,8 @@ export const login = async (req, res) => {
     if (!role) return res.status(404).json({ message: "Role not found" })
     try {
         if (role === "ADMIN" || role === "STOCK_MANAGER") {
-            await signIn(email, password,role, res);
-            return res.status(200).json({ message: "Login successful" })
+            const user = await signIn(email, password,role, res);
+            return res.status(200).json({ message: "Login successful", user : user })
         };
         await supplierLogin(email, password, role, res);
         return res.status(200).json({ message: "Login successful" })
