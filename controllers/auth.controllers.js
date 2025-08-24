@@ -1,6 +1,6 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
-import { signIn, supplierLogin } from "../services/auth.services.js";
+import { signIn } from "../services/auth.services.js";
 
 export const register = async (req, res) => {
     const { fullname, username, email, phone_number, password, role } = req.body;
@@ -30,11 +30,7 @@ export const login = async (req, res) => {
     const { email, password, role } = req.body;
     if (!role) return res.status(404).json({ message: "Role not found" })
     try {
-        if (role === "ADMIN" || role === "STOCK_MANAGER") {
-            const user = await signIn(email, password,role, res);
-            return res.status(200).json({ message: "Login successful", user : user })
-        };
-        await supplierLogin(email, password, role, res);
+        await signIn(email, password, role, res);
         return res.status(200).json({ message: "Login successful" })
     } catch (error) {
         console.log(error);

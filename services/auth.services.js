@@ -23,7 +23,6 @@ export const signIn = async (email, password, role, res) => {
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) return res.status(403).json({ message: "Incorrect password" });
         generateTokenAndSetCookie(user, res);
-        return user
     } catch (error) {
         throw new Error(error)
     }

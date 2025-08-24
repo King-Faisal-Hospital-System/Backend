@@ -69,7 +69,7 @@ export const receiveStockRefill = async (stock, purchase_order, batch_number, qu
     }
 };
 
-export const issueStock = async (stock, requestor, remark, stock, quantity) => {
+export const issueStock = async (stock, requestor, remark, quantity) => {
     try {
         
     } catch (error) {

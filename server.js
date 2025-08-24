@@ -13,7 +13,10 @@ const app = express();
 
 const PORT = process.env.PORT || 5000;
 
-app.use(cors());
+app.use(cors({
+    origin : "http://localhost:5173",
+    credentials : true
+}));
 app.use(cookieParser())
 app.use(express.json());
 
@@ -24,7 +27,7 @@ app.use("/api/suppliers", supplierRouter);
 app.use("/api/orders", purchaseOrderRouter);
 app.use("/api/invoices", invoiceRouter)
 
-app.listen(PORT, async () => {
+app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
-    await connectToDatabase()
+    connectToDatabase()
 })
