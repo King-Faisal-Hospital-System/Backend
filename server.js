@@ -8,6 +8,9 @@ import supplierRouter from "./routes/supplier.routes.js";
 import userRouter from "./routes/user.routes.js";
 import purchaseOrderRouter from "./routes/purchaseOrder.routes.js";
 import invoiceRouter from "./routes/invoice.routes.js";
+import { configDotenv } from "dotenv";
+
+configDotenv()
 
 const app = express();
 

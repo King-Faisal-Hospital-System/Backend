@@ -1,3 +1,4 @@
+import Issue from "../models/issue.model.js";
 import PurchaseOrder from "../models/purchaseOrder.model.js";
 import Stock from "../models/stock.model.js";
 import { sendPurchaseOrderEmail } from "./email.services.js";
@@ -48,8 +49,13 @@ export const requestStockReFill = async (stock, supplier, quantity, unit_price, 
             notes: notes
         });
         await purchase_order.save();
+        const orderData = {
+            purchase_order : purchase_order,
+            stock : stock,
+            supplier : supplier
+        }
         // Email generation and sending logic
-        // await sendPurchaseOrderEmail(supplier.company_email);
+        await sendPurchaseOrderEmail(supplier.company_email, orderData);
     } catch (error) {
         throw new Error(error)
     }
@@ -71,7 +77,14 @@ export const receiveStockRefill = async (stock, purchase_order, batch_number, qu
 
 export const issueStock = async (stock, requestor, remark, quantity) => {
     try {
-        
+        const issue = new Issue({
+            stock : stock._id,
+            requestor : requestor,
+            notes : remark,
+            quantity : quantity
+        });
+        stock.quantity -= quantity;
+        Promise.all([stock.save(), issue.save()])
     } catch (error) {
         throw new Error(error)
     }

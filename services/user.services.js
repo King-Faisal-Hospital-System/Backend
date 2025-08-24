@@ -7,4 +7,4 @@ export const retrieveUser = async (userId, res) => {
     } catch (error) {
         throw new Error(error)
     }
-}
+};
