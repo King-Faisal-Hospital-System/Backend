@@ -6,7 +6,8 @@ const companyDetails = {
 const generatePurchaseOrderEmail = async ({
   purchase_order,
   stock,
-  supplier
+  supplier,
+  unit_price
 }) => {
   return `
     <!DOCTYPE html>
@@ -52,7 +53,7 @@ const generatePurchaseOrderEmail = async ({
             <tr>
               <td style="padding: 8px; border: 1px solid #ddd;">${stock.name}</td>
               <td style="padding: 8px; border: 1px solid #ddd;">${purchase_order.quantity}</td>
-              <td style="padding: 8px; border: 1px solid #ddd;">$${stock.unit_price.toFixed(2)}</td>
+              <td style="padding: 8px; border: 1px solid #ddd;">$${unit_price.toFixed(2)}</td>
               <td style="padding: 8px; border: 1px solid #ddd;">$${purchase_order.total_value.toFixed(2)}</td>
             </tr>
           </tbody>

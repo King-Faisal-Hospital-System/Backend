@@ -13,7 +13,7 @@ export const getAllStocks = async (req, res) => {
 };
 
 export const createStock = async (req, res) => {
-    const { stock_name, product_name, initial_quantity, category, form, description, supplierId, batch_number, expiry_date, notes, unit_cost } = req.body;
+    const { stock_name, product_name, initial_quantity, category, form, description, supplierId, batch_number, expiry_date, notes, unit_price } = req.body;
     try {
         const stockDetails = {
             name: stock_name ? stock_name : product_name,
@@ -26,8 +26,8 @@ export const createStock = async (req, res) => {
             batch : batch_number,
             expiry_date : expiry_date,
             notes : notes,
-            unit_cost : unit_cost,
-            total_value : initial_quantity * unit_cost
+            unit_price : unit_price,
+            total_value : initial_quantity * unit_price
         }
         await registerStock(stockDetails, res);
         return res.status(200).json({ message: "Product created and it's stock initialized" })

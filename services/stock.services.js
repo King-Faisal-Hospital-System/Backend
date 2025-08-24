@@ -52,7 +52,8 @@ export const requestStockReFill = async (stock, supplier, quantity, unit_price, 
         const orderData = {
             purchase_order : purchase_order,
             stock : stock,
-            supplier : supplier
+            supplier : supplier,
+            unit_price : unit_price
         }
         // Email generation and sending logic
         await sendPurchaseOrderEmail(supplier.company_email, orderData);
