@@ -29,7 +29,7 @@ export const requestReportGeneration = async (req, res) => {
                     throw new Error("Unable to detect type of report")
                 };
             } catch (error) {
-                report.status = "REJECTED";
+                report.status = "FAILED";
                 await report.save();
                 throw new Error(error)
             }
@@ -56,7 +56,7 @@ export const requestSupplierReport = async (req, res) => {
                 report.status = "COMPLETED";
                 await report.save();
             } catch (error) {
-                report.status = "REJECTED";
+                report.status = "FAILED";
                 await report.save();
                 throw new Error(error)
             }

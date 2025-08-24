@@ -2,7 +2,10 @@ import puppeteer from "puppeteer";
 
 const convertHtmlToPdfBuffer = async (htmlContent) => {
     try {
-        const browser = puppeteer.launch();
+        const browser = puppeteer.launch({
+            executablePath: "C:\Users\pc\AppData\Local\Google\Chrome\Application",
+            headless: false
+        });
         const page = (await browser).newPage();
         (await page).setContent(htmlContent, { waitUntil: "networkidle0" });
         const pdfBuffer = (await page).pdf({
