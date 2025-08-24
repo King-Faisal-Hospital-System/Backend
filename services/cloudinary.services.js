@@ -1,6 +1,6 @@
 import cloudinary from "../config/cloudinary.config.js"
 
-export const uploadReportToCloudinary = (pdfBuffer, publicId="reports") => {
+const uploadReportToCloudinary = (pdfBuffer, publicId="reports") => {
     return new Promise((resolve, reject) => {
         const stream = cloudinary.uploader.upload_stream({
             resource_type : "raw",
@@ -12,4 +12,6 @@ export const uploadReportToCloudinary = (pdfBuffer, publicId="reports") => {
         });
         stream.end(pdfBuffer)
     })
-}
+};
+
+export default uploadReportToCloudinary

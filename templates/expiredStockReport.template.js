@@ -1,12 +1,15 @@
-const expiredStockReportTemplate = async (data) => {
-    const { companyName, reportDate, expiredItems } = data;
-    
+const generateExpiredStockReportTemplate = async (expiredItems) => {
+    const data = {
+        companyName: "King Faisal Hospital",
+        reportDate: new Date()
+    }
+
     return `
         <!DOCTYPE html>
         <html>
         <head>
             <meta charset="UTF-8">
-            <title>Expired Stock Report</title>
+            <title>Expired Stocks Report</title>
             <style>
                 body { font-family: Arial, sans-serif; margin: 40px; }
                 .header { text-align: center; margin-bottom: 30px; }
@@ -19,19 +22,18 @@ const expiredStockReportTemplate = async (data) => {
         </head>
         <body>
             <div class="header">
-                <h1>${companyName}</h1>
+                <h1>${data.companyName}</h1>
                 <h2>Expired Stock Report</h2>
             </div>
             
             <div class="report-date">
-                Report Generated: ${reportDate}
+                Report Generated: ${data.reportDate}
             </div>
 
             <table>
                 <thead>
                     <tr>
                         <th>Product Name</th>
-                        <th>SKU</th>
                         <th>Expiry Date</th>
                         <th>Quantity</th>
                         <th>Unit Price</th>
@@ -41,18 +43,17 @@ const expiredStockReportTemplate = async (data) => {
                 <tbody>
                     ${expiredItems.map(item => `
                         <tr>
-                            <td>${item.productName}</td>
-                            <td>${item.sku}</td>
-                            <td>${item.expiryDate}</td>
+                            <td>${item.name}</td>
+                            <td>${item.expiry_date}</td>
                             <td>${item.quantity}</td>
-                            <td>$${item.unitPrice.toFixed(2)}</td>
-                            <td>$${(item.quantity * item.unitPrice).toFixed(2)}</td>
+                            <td>$${item.unit_price.toFixed(2)}</td>
+                            <td>$${(item.quantity * item.unit_price).toFixed(2)}</td>
                         </tr>
                     `).join('')}
                     <tr class="total-row">
-                        <td colspan="5">Total Loss Value</td>
-                        <td>$${expiredItems.reduce((total, item) => 
-                            total + (item.quantity * item.unitPrice), 0).toFixed(2)}</td>
+                        <td colspan="5">Total Expired Stock Value</td>
+                        <td>$${expiredItems.reduce((total, item) =>
+        total + (item.quantity * item.unit_price), 0).toFixed(2)}</td>
                     </tr>
                 </tbody>
             </table>
@@ -61,5 +62,4 @@ const expiredStockReportTemplate = async (data) => {
     `;
 };
 
-const ExpiredStockReportTemplate = expiredStockReportTemplate;
-export default ExpiredStockReportTemplate;
+export default generateExpiredStockReportTemplate
