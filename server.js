@@ -10,6 +10,7 @@ import purchaseOrderRouter from "./routes/purchaseOrder.routes.js";
 import invoiceRouter from "./routes/invoice.routes.js";
 import { configDotenv } from "dotenv";
 import reportRouter from "./routes/report.routes.js";
+import adminRouter from "./routes/admin.routes.js";
 
 configDotenv()
 
@@ -18,7 +19,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(cors({
-    origin : "http://localhost:5173",
+    origin : "http://localhost:3000",
     credentials : true
 }));
 app.use(cookieParser())
@@ -30,7 +31,8 @@ app.use("/api/stocks", stockRouter);
 app.use("/api/suppliers", supplierRouter);
 app.use("/api/orders", purchaseOrderRouter);
 app.use("/api/invoices", invoiceRouter);
-app.use("/api/reports", reportRouter)
+app.use("/api/reports", reportRouter);
+app.use("/api/admin", adminRouter);
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);

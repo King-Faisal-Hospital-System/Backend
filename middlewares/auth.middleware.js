@@ -4,14 +4,22 @@ configDotenv();
 
 export const authorize = (req, res, next) => {
     const { token } = req.cookies;
+
     try {
-        if(!token) return res.status(404).json({ message : "No token found" });
+        if (!token) {
+            return res.status(401).json({ message: "No token found" });
+        }
+
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        if(!decoded) return res.status(403).json({ message : "Invalid token" });
+
+        if (!decoded) {
+            return res.status(403).json({ message: "Invalid token" });
+        }
+
         req.user = decoded;
         next();
     } catch (error) {
-        console.log(error);
-        return res.status(403).json({ message : "Internal server error" })
+        console.error(error);
+        return res.status(500).json({ message: "Internal server error" });
     }
-}
+};
