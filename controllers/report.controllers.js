@@ -7,7 +7,7 @@ export const requestReportGeneration = async (req, res) => {
         const report = new Report({
             type: type
         });
-        report.name = `${type} - ${report._id}`;
+        report.name = `Report - ${report._id}`;
         report.status = "PENDING";
         await report.save();
         res.status(202).json({ message: "Report generation in progress", report: report._id });
@@ -16,18 +16,17 @@ export const requestReportGeneration = async (req, res) => {
             try {
                 let url;
                 // Report generation based on type logic
-                if (type === "INVENTORY_REPORT") {
+                if (type.includes("INVENTORY_REPORT")) {
                     const url = await generateInventoryReport();
                     report.file_url = url;
                     await report.save();
-                } else if (type === "EXPIRATION_REPORT") {
+                }
+                if (type.includes("EXPIRATION_REPORT")) {
                     url = await generateStockExpirationReport();
                     report.file_url = url;
                     report.status = "COMPLETED";
                     await report.save();
-                } else {
-                    throw new Error("Unable to detect type of report")
-                };
+                }
             } catch (error) {
                 report.status = "FAILED";
                 await report.save();

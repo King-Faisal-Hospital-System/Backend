@@ -84,6 +84,7 @@ export const issueStock = async (stock, requestor, remark, quantity) => {
             notes : remark,
             quantity : quantity
         });
+        stock.issued += quantity;
         stock.quantity -= quantity;
         Promise.all([stock.save(), issue.save()])
     } catch (error) {
