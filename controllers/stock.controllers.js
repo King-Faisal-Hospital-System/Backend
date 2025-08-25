@@ -3,6 +3,8 @@ import Stock from "../models/stock.model.js";
 import Supplier from "../models/supplier.model.js"
 import { receiveStockRefill, registerStock, requestStockReFill, retrieveAllStocks, retriveStock } from "../services/stock.services.js";
 
+const now = new Date(Date.now());
+
 export const getAllStocks = async (req, res) => {
     try {
         const stocks = await retrieveAllStocks();
@@ -11,6 +13,17 @@ export const getAllStocks = async (req, res) => {
         return res.status(500).json({ message : "Internal server error" })
     }
 };
+
+export const getExpiredStock = async (req, res) => {
+    try {
+        const stocks = await Stock.find({ expiry_date : {
+            $lt : now
+        }});
+        return res.status(200).json({ stocks })
+    } catch (error) {
+        return res.status(500).json({ message : "Internal server error" })
+    }
+}
 
 export const createStock = async (req, res) => {
     const { stock_name, product_name, initial_quantity, category, form, description, supplierId, batch_number, expiry_date, notes, unit_price } = req.body;

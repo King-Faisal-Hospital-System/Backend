@@ -1,6 +1,6 @@
 import express from "express";
 import { authorize } from "../middlewares/auth.middleware.js";
-import { createStock, changeProductStockName, getAllStocks, getStockById, requestSupplierForStockRefill, receiveOrderToStock } from "../controllers/stock.controllers.js";
+import { createStock, changeProductStockName, getAllStocks, getStockById, requestSupplierForStockRefill, receiveOrderToStock, getExpiredStock } from "../controllers/stock.controllers.js";
 import { authorizeRole } from "../middlewares/role.middleware.js";
 
 const stockRouter = express.Router();
@@ -12,5 +12,8 @@ stockRouter.patch("/:stockId", authorize, authorizeRole("ADMIN", "STOCK_MANAGER"
 
 stockRouter.post("/:stockId/request", authorize, authorizeRole("STOCK_MANAGER", "ADMIN"), requestSupplierForStockRefill);
 stockRouter.post("/:stockId/receive", authorize, authorizeRole("STOCK_MANAGER", "ADMIN"), receiveOrderToStock);
+
+/* Custom routes */
+stockRouter.get("/expired", authorize, authorizeRole("ADMIN", "STOCK_MANAGER"), getExpiredStock)
 
 export default stockRouter
