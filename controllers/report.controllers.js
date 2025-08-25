@@ -7,7 +7,7 @@ export const requestReportGeneration = async (req, res) => {
         const report = new Report({
             type: type
         });
-        report.name = `${type} - ${new Date(Date.now())}`;
+        report.name = `${type} - ${report._id}`;
         report.status = "PENDING";
         await report.save();
         res.status(202).json({ message: "Report generation in progress", report: report._id });
@@ -46,7 +46,7 @@ export const requestSupplierReport = async (req, res) => {
         const report = new Report({
             type: "SUPPLIER_REPORT"
         });
-        report.name = `SUPPLIER_REPORT - ${new Date(Date.now())}`;
+        report.name = `SUPPLIER_REPORT - ${report._id}`;
         await report.save();
         res.status(202).json({ message: "Supplier's report generation in progress" });
         (async () => {
@@ -85,5 +85,28 @@ export const getReport = async (req, res) => {
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: "Internal server error" })
+    }
+};
+
+export const renameReport = async (req, res) => {
+    const { reportId } = req.params;
+    const { reportName } = req.params;
+    try {
+        const report = await Report.findById(reportId);
+        report.name = reportName;
+        await report.save();
+        return res.status(200).json({ message : "Report renames" })
+    } catch (error) {
+        return res.status(500).json({ message : "Internal server error"})
+    }
+};
+
+export const deleteReport = async (req, res) => {
+    const { reportId } = req.params;
+    try {
+        await Report.findByIdAndDelete(reportId);
+        return res.status(200).json({ message : "Report deleted" })        
+    } catch (error) {
+        return res.status(500).json({ message : "Internal server error" })
     }
 }
