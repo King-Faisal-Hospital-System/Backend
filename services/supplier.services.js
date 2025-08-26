@@ -18,10 +18,12 @@ export const retrieveSupplier = async (supplierId) => {
     }
 };
 
-export const registerSupplier = async (company_name, company_email, contact_person, company_phone, address, tax_id, payment_terms, res) => {
+export const registerSupplier = async (company_name, company_email, contact_person, company_phone, address, tax_id, payment_terms) => {
     try {
         const existingSupplier = await Supplier.findOne({ $or: [{ company_name: company_name }, { company_email: company_email }, { company_phone: company_phone }] });
-        if (existingSupplier) return res.status(403).json({ message: "Supplier already exists" });
+        if (existingSupplier) {
+            throw new Error("Supplier already exists");
+        }
         const supplier = new Supplier({
             company_name,
             company_email,
@@ -32,9 +34,10 @@ export const registerSupplier = async (company_name, company_email, contact_pers
             payment_terms,
             isVerified: false
         });
-        await supplier.save();
+        const savedSupplier = await supplier.save();
+        return savedSupplier;
     } catch (error) {
-        throw new Error(error)
+        throw new Error(error.message || error)
     }
 };
 

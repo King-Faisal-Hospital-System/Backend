@@ -5,7 +5,7 @@ import generateExpiredStockReportTemplate from "../templates/expiredStockReport.
 import generateInventoryReportTemplate from "../templates/inventoryReport.template.js";
 import generateSupplierReportTemplate from "../templates/supplierReport.template.js";
 import convertHtmlToPdfBuffer from "../utils/file.conversion.utils.js";
-import uploadReportToCloudinary from "./cloudinary.services.js"
+import uploadReportLocally from "./local.storage.services.js"
 
 export const generateStockExpirationReport = async () => {
     const now = new Date();
@@ -13,7 +13,7 @@ export const generateStockExpirationReport = async () => {
         const expiredStocks = await Stock.find({ expiry_date: { $lt: now } });
         const template = await generateExpiredStockReportTemplate(expiredStocks);
         const pdf = await convertHtmlToPdfBuffer(template);
-        const url = uploadReportToCloudinary(pdf, publicId = "expired_stock_report");
+        const url = await uploadReportLocally(pdf, "expired_stock_report");
         return url
     } catch (error) {
         throw new Error(error)
@@ -26,7 +26,7 @@ export const generateSupplierReport = async (supplierId) => {
         const supplierStocks = await Stock.find({ supplier : supplierId });
         const template = await generateSupplierReportTemplate(supplier, supplierStocks);
         const pdf = await convertHtmlToPdfBuffer(template);
-        const url = await uploadReportToCloudinary(pdf, publicId = "supplier_report");
+        const url = await uploadReportLocally(pdf, "supplier_report");
         return url
     } catch (error) {
         throw new Error(error)
@@ -38,7 +38,7 @@ export const generateInventoryReport = async () => {
         const stocks = await Stock.find();
         const template = await generateInventoryReportTemplate(stocks);
         const pdf = await convertHtmlToPdfBuffer(template);
-        const url = await uploadReportToCloudinary(pdf, publicId = "inventory_report");
+        const url = await uploadReportLocally(pdf, "inventory_report");
         return url
     } catch (error) {
         throw new Error(error)

@@ -1,11 +1,22 @@
 import puppeteer from "puppeteer";
 
 const convertHtmlToPdfBuffer = async (htmlContent) => {
+    let browser;
     try {
-        const browser = puppeteer.launch();
-        const page = (await browser).newPage();
-        (await page).setContent(htmlContent, { waitUntil: "networkidle0" });
-        const pdfBuffer = (await page).pdf({
+        browser = await puppeteer.launch({
+            headless: 'new',
+            args: [
+                '--no-sandbox',
+                '--disable-setuid-sandbox',
+                '--disable-dev-shm-usage',
+                '--disable-gpu'
+            ]
+        });
+        
+        const page = await browser.newPage();
+        await page.setContent(htmlContent, { waitUntil: "networkidle0" });
+        
+        const pdfBuffer = await page.pdf({
             format: "A4",
             printBackground: true,
             margin: {
@@ -15,10 +26,15 @@ const convertHtmlToPdfBuffer = async (htmlContent) => {
                 right: "20px"
             }
         });
-        (await browser).close();
-        return pdfBuffer
+        
+        return pdfBuffer;
     } catch (error) {
-        throw new Error(error)
+        console.error('PDF generation error:', error);
+        throw new Error(`PDF generation failed: ${error.message}`);
+    } finally {
+        if (browser) {
+            await browser.close();
+        }
     }
 };
 

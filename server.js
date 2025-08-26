@@ -8,9 +8,12 @@ import supplierRouter from "./routes/supplier.routes.js";
 import userRouter from "./routes/user.routes.js";
 import purchaseOrderRouter from "./routes/purchaseOrder.routes.js";
 import invoiceRouter from "./routes/invoice.routes.js";
+import paymentRouter from "./routes/payment.routes.js";
 import { configDotenv } from "dotenv";
 import reportRouter from "./routes/report.routes.js";
 import adminRouter from "./routes/admin.routes.js";
+import dashboardRouter from "./routes/dashboard.routes.js";
+import settingsRouter from "./routes/settings.routes.js";
 
 configDotenv()
 
@@ -25,14 +28,20 @@ app.use(cors({
 app.use(cookieParser())
 app.use(express.json());
 
+// Serve static files from reports directory
+app.use('/reports', express.static('reports'));
+
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter)
 app.use("/api/stocks", stockRouter);
 app.use("/api/suppliers", supplierRouter);
 app.use("/api/orders", purchaseOrderRouter);
 app.use("/api/invoices", invoiceRouter);
+app.use("/api/payments", paymentRouter);
 app.use("/api/reports", reportRouter);
 app.use("/api/admin", adminRouter);
+app.use("/api/dashboard", dashboardRouter);
+app.use("/api/settings", settingsRouter);
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);

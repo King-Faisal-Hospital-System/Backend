@@ -6,7 +6,7 @@ const supplierSchema = mongoose.Schema({
     contact_person : { type : String, required : true },
     company_phone : { type : String, required : true },
     address : { type : String },
-    taxId : { type : String },
+   tax_id: { type: String }, 
     payment_terms : { type : Number }, // In days
     isVerified : { type : Boolean, default : false },
 }, { timestamps : true });

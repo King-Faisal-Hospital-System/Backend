@@ -4,38 +4,69 @@ import Supplier from "../models/supplier.model.js"
 import { receiveStockRefill, registerStock, requestStockReFill, retrieveAllStocks, retriveStock } from "../services/stock.services.js";
 
 export const getAllStocks = async (req, res) => {
-    try {
-        const stocks = await retrieveAllStocks();
-        return res.status(200).json({ stocks : stocks })
-    } catch (error) {
-        return res.status(500).json({ message : "Internal server error" })
-    }
+  try {
+    let stocks = await retrieveAllStocks(); 
+    stocks = stocks.map(stock => stock.toObject()); 
+    return res.status(200).json({ stocks });
+  } catch (error) {
+    return res.status(500).json({ message: "Internal server error" });
+  }
 };
 
+
+
+
+
 export const createStock = async (req, res) => {
-    const { stock_name, product_name, initial_quantity, category, form, description, supplierId, batch_number, expiry_date, notes, unit_price } = req.body;
-    try {
-        const stockDetails = {
-            name: stock_name ? stock_name : product_name,
-            product_name: product_name,
-            product_description: description,
-            quantity: initial_quantity ? initial_quantity : 0,
-            category: category,
-            form: form,
-            supplierId : supplierId,
-            batch : batch_number,
-            expiry_date : expiry_date,
-            notes : notes,
-            unit_price : unit_price,
-            total_value : initial_quantity * unit_price
-        }
-        await registerStock(stockDetails, res);
-        return res.status(200).json({ message: "Product created and it's stock initialized" })
-    } catch (error) {
-        console.log(error)
-        return res.status(500).json({ message: "Internal server error" })
-    }
+  const {
+    stock_name,
+    product_name,
+    name,
+    initial_quantity,
+    quantity,
+    category,
+    form,
+    description,
+    product_description,
+    supplierId,
+    supplier,
+    batch_number,
+    expiry_date,
+    notes,
+    unit_price,
+  } = req.body;
+
+  try {
+   
+    const finalQuantity = Number(initial_quantity || quantity) || 0;
+    const price = Number(unit_price) || 0;
+
+    const stockDetails = {
+      name: stock_name || product_name || name,
+      product_name: product_name || name,
+      product_description: description || product_description,
+      quantity: finalQuantity,
+      issued: 0,
+      category,
+      form,
+      supplier: supplierId || supplier,
+      batch_number,
+      expiry_date,
+      notes,
+      unit_price: price,
+      total_value: finalQuantity * price,
+    };
+
+    const stock = await registerStock(stockDetails);
+    return res
+      .status(200)
+      .json({ message: "Product created and its stock initialized", stock });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: error.message || "Internal server error" });
+  }
 };
+
 
 export const getStockById = async (req, res) => {
     const { stockId } = req.params;
@@ -95,5 +126,82 @@ export const receiveOrderToStock = async (req, res) => {
     } catch (error) {
         console.log(error)
         return res.status(500).json({ message : "Internal server error" })
+    }
+}
+
+// Update stock details
+export const updateStock = async (req, res) => {
+    const { stockId } = req.params;
+    const {
+        name,
+        product_name,
+        product_description,
+        category,
+        form,
+        supplier,
+        batch_number,
+        expiry_date,
+        notes,
+        unit_price,
+        quantity
+    } = req.body;
+
+    try {
+        const stock = await Stock.findById(stockId);
+        if (!stock) return res.status(404).json({ message: "Stock not found" });
+
+        
+        if (name) stock.name = name;
+        if (product_name) stock.product_name = product_name;
+        if (product_description) stock.product_description = product_description;
+        if (category) stock.category = category;
+        if (form) stock.form = form;
+        if (supplier) stock.supplier = supplier;
+        if (batch_number) stock.batch_number = batch_number;
+        if (expiry_date) stock.expiry_date = expiry_date;
+        if (notes) stock.notes = notes;
+        if (unit_price) {
+            stock.unit_price = Number(unit_price);
+            stock.total_value = (stock.quantity - stock.issued) * stock.unit_price;
+        }
+        if (quantity) {
+            stock.quantity = Number(quantity);
+            stock.total_value = (stock.quantity - stock.issued) * stock.unit_price;
+        }
+
+        await stock.save();
+        return res.status(200).json({ message: "Stock updated successfully", stock });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+}
+
+// Issue stock endpoint
+export const issueStockController = async (req, res) => {
+    const { stockId } = req.params;
+    const { quantity, requestor, remark } = req.body;
+
+    if (!quantity || !requestor) {
+        return res.status(400).json({ message: "Quantity and requestor are required" });
+    }
+
+    try {
+        const stock = await Stock.findById(stockId);
+        if (!stock) return res.status(404).json({ message: "Stock not found" });
+
+        const { issueStock } = await import("../services/stock.services.js");
+        const issue = await issueStock(stock, requestor, remark, Number(quantity));
+        
+        return res.status(200).json({ 
+            message: "Stock issued successfully", 
+            issue,
+            stock: await stock.populate("supplier")
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ 
+            message: error.message || "Internal server error" 
+        });
     }
 }

@@ -4,89 +4,96 @@ import Stock from "../models/stock.model.js";
 import { sendPurchaseOrderEmail } from "./email.services.js";
 import { createInvoice } from "./invoice.services.js";
 
-export const registerStock = async (stockDetails, res) => {
-    try {
-        const existingStock = await Stock.findOne({ $and: [{ product_name: stockDetails.product_name }, { category: stockDetails.category }, { form: stockDetails.form }] });
-        if (existingStock) return res.status(403).json({ message: "Stock of this product already exists" });
-        const stock = new Stock(stockDetails);
-        await stock.save();
-    } catch (error) {
-        throw new Error(error)
+// Register new stock
+export const registerStock = async (stockDetails) => {
+    const existingStock = await Stock.findOne({
+        product_name: stockDetails.product_name,
+        category: stockDetails.category,
+        form: stockDetails.form
+    });
+
+    if (existingStock) {
+        const error = new Error("Stock of this product already exists");
+        error.statusCode = 403;
+        throw error;
     }
+
+    const stock = new Stock(stockDetails);
+    await stock.save();
+    return stock;
 };
 
+// Retrieve all stocks
 export const retrieveAllStocks = async () => {
-    try {
-        const stocks = await Stock.find();
-        return stocks
-    } catch (error) {
-        throw new Error(error)
-    }
+    const stocks = await Stock.find().populate("supplier");
+    return stocks;
 };
 
-export const retriveStock = async (stockId, res) => {
-    try {
-        const stock = await Stock.findById(stockId).populate("supplier")
-        if (!stock) return res.status(404).json({ message: "Stock not found" });
-        return stock
-    } catch (error) {
-        throw new Error(error)
+// Retrieve single stock by ID
+export const retriveStock = async (stockId) => {
+    const stock = await Stock.findById(stockId).populate("supplier");
+    if (!stock) {
+        const error = new Error("Stock not found");
+        error.statusCode = 404;
+        throw error;
     }
-}
+    return stock;
+};
 
 /* Stock Management Helper functions */
-
 export const requestStockReFill = async (stock, supplier, quantity, unit_price, userId, order_date, notes) => {
-    try {
-        const purchase_order = new PurchaseOrder({
-            supplier: supplier._id,
-            status: "REQUESTED",
-            stock: stock._id,
-            quantity: quantity,
-            total_value: quantity * unit_price,
-            createdBy: userId,
-            order_date: order_date,
-            notes: notes
-        });
-        await purchase_order.save();
-        const orderData = {
-            purchase_order : purchase_order,
-            stock : stock,
-            supplier : supplier,
-            unit_price : unit_price
-        }
-        // Email generation and sending logic
-        await sendPurchaseOrderEmail(supplier.company_email, orderData);
-    } catch (error) {
-        throw new Error(error)
-    }
+    const purchase_order = new PurchaseOrder({
+        supplier: supplier._id,
+        status: "REQUESTED",
+        stock: stock._id,
+        quantity: quantity,
+        total_value: quantity * unit_price,
+        createdBy: userId,
+        order_date,
+        notes
+    });
+
+    await purchase_order.save();
+
+    const orderData = { purchase_order, stock, supplier, unit_price };
+
+    await sendPurchaseOrderEmail(supplier.company_email, orderData);
 };
 
 export const receiveStockRefill = async (stock, purchase_order, batch_number, quantity_received, notes) => {
-    try {
-        stock.quantity += quantity_received;
-        stock.batch_number = batch_number;
-        purchase_order.notes = notes;
-        purchase_order.status = "DELIVERED";
-        const total_value = stock.quantity * stock.unit_price;
-        await createInvoice("REGULAR", purchase_order._id, total_value, notes);
-        Promise.all([stock.save(), purchase_order.save()]);
-    } catch (error) {
-        throw new Error(error)
-    }
+    stock.quantity += quantity_received;
+    stock.batch_number = batch_number;
+    stock.notes = notes;
+    purchase_order.status = "DELIVERED";
+
+    stock.total_value = (stock.quantity - stock.issued) * stock.unit_price; // updated
+
+    await Promise.all([
+        stock.save(),
+        purchase_order.save(),
+        createInvoice("REGULAR", purchase_order._id, quantity_received * stock.unit_price, notes)
+    ]);
 };
 
 export const issueStock = async (stock, requestor, remark, quantity) => {
-    try {
-        const issue = new Issue({
-            stock : stock._id,
-            requestor : requestor,
-            notes : remark,
-            quantity : quantity
-        });
-        stock.quantity -= quantity;
-        Promise.all([stock.save(), issue.save()])
-    } catch (error) {
-        throw new Error(error)
+    if (quantity > (stock.quantity - stock.issued)) {
+        const error = new Error("Insufficient stock to issue");
+        error.statusCode = 400;
+        throw error;
     }
-}
+
+    const issue = new Issue({
+        stock: stock._id,
+        requestor,
+        notes: remark,
+        quantity
+    });
+
+    stock.issued += quantity;
+    stock.total_value = (stock.quantity - stock.issued) * stock.unit_price; // update total value
+
+    await Promise.all([stock.save(), issue.save()]);
+
+    return issue;
+};
+
