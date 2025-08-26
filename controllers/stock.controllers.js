@@ -1,6 +1,7 @@
 import PurchaseOrder from "../models/purchaseOrder.model.js";
 import Stock from "../models/stock.model.js";
 import Supplier from "../models/supplier.model.js"
+import mongoose from "mongoose";
 import { receiveStockRefill, registerStock, requestStockReFill, retrieveAllStocks, retriveStock } from "../services/stock.services.js";
 
 export const getAllStocks = async (req, res) => {
@@ -45,7 +46,7 @@ export const createStock = async (req, res) => {
       issued: 0,
       category,
       form,
-      supplier: supplierId || "",
+      supplier: supplier || "",
       batch_number,
       expiry_date,
       notes,
@@ -67,6 +68,9 @@ export const createStock = async (req, res) => {
 export const getStockById = async (req, res) => {
     const { stockId } = req.params;
     try {
+        if (!mongoose.Types.ObjectId.isValid(stockId)) {
+            return res.status(400).json({ message: "Invalid stock ID format" });
+        }
         const stock = await retriveStock(stockId, res);
         return res.status(200).json({ stock : stock })
     } catch (error) {
@@ -78,6 +82,9 @@ export const changeProductStockName = async (req, res) => {
     const { name } = req.body;
     const { stockId } = req.params;
     try {
+        if (!mongoose.Types.ObjectId.isValid(stockId)) {
+            return res.status(400).json({ message: "Invalid stock ID format" });
+        }
         const stock = await Stock.findById(stockId);
         if(!stock) return res.status(404).json({ message : "Stock not found" });
         stock.name = name;
@@ -96,6 +103,9 @@ export const requestSupplierForStockRefill = async (req, res) => {
     const { stockId } = req.params;
     const { id } = req.user;
     try {
+        if (!mongoose.Types.ObjectId.isValid(stockId) || !mongoose.Types.ObjectId.isValid(supplierId)) {
+            return res.status(400).json({ message: "Invalid ID format", stockId });
+        }
         const stock = await Stock.findById(stockId);
         if(!stock) return res.status(404).json({ message : "Stock not found" });
         const supplier = await Supplier.findById(supplierId);
@@ -112,6 +122,9 @@ export const receiveOrderToStock = async (req, res) => {
     const { orderId, batch_number, quantity_received, notes } = req.body;
     const { stockId } = req.params;
     try {
+        if (!mongoose.Types.ObjectId.isValid(stockId) || !mongoose.Types.ObjectId.isValid(orderId)) {
+            return res.status(400).json({ message: "Invalid ID format", stockId, orderId });
+        }
         const stock = await Stock.findById(stockId);
         if(!stock) return res.status(404).json({ message : "Stock not found" });
         const purchase_order = await PurchaseOrder.findById(orderId);
@@ -143,6 +156,9 @@ export const updateStock = async (req, res) => {
     } = req.body;
 
     try {
+        if (!mongoose.Types.ObjectId.isValid(stockId)) {
+            return res.status(400).json({ message: "Invalid stock ID format" });
+        }
         const stock = await Stock.findById(stockId);
         if (!stock) return res.status(404).json({ message: "Stock not found" });
 
@@ -183,6 +199,9 @@ export const issueStockController = async (req, res) => {
     }
 
     try {
+        if (!mongoose.Types.ObjectId.isValid(stockId)) {
+            return res.status(400).json({ message: "Invalid stock ID format" });
+        }
         const stock = await Stock.findById(stockId);
         if (!stock) return res.status(404).json({ message: "Stock not found" });
 
