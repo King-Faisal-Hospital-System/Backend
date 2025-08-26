@@ -13,10 +13,6 @@ export const getAllStocks = async (req, res) => {
   }
 };
 
-
-
-
-
 export const createStock = async (req, res) => {
   const {
     stock_name,
@@ -49,7 +45,7 @@ export const createStock = async (req, res) => {
       issued: 0,
       category,
       form,
-      supplier: supplierId || supplier,
+      supplier: supplierId || "",
       batch_number,
       expiry_date,
       notes,

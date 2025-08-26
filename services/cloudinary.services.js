@@ -1,4 +1,4 @@
-import cloudinary from "../config/cloudinary.config.js"
+import cloudinary from "../config/cloudinary.config.js";
 
 const uploadReportToCloudinary = (pdfBuffer, publicId="reports") => {
     return new Promise((resolve, reject) => {
