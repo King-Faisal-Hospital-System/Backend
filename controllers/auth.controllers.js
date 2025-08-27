@@ -56,26 +56,37 @@ export const register = async (req, res) => {
 // LOGIN
 export const login = async (req, res) => {
   const { email, password, role } = req.body;
-  if (!role) return res.status(404).json({ message: "Role not found" });
+
+  if (!email || !password || !role) {
+    return res.status(400).json({ message: "Email, password, and role are required" });
+  }
 
   try {
-    const user = await User.findOne({ email, role });
+    
+    const user = await User.findOne({ email, role: role.toUpperCase() });
     if (!user) return res.status(404).json({ message: "User not found" });
 
+    
     const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid)
-      return res.status(403).json({ message: "Incorrect password" });
+    if (!isPasswordValid) return res.status(401).json({ message: "Incorrect password" });
 
-    if (!user.isVerified)
-      return res
-        .status(403)
-        .json({ message: "User not verified by admin" });
+    
+    if (!user.isVerified) return res.status(403).json({ message: "User not verified by admin" });
 
+   
     generateTokenAndSetCookie(user, res);
 
-    return res.status(200).json({ message: "Login successful" });
+    
+    return res.status(200).json({
+      message: "Login successful",
+      user: {
+        email: user.email,
+        role: user.role,
+        fullname: user.fullname,
+      },
+    });
   } catch (error) {
-    console.log(error);
+    console.error("Login error:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
 };
