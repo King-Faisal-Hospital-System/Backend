@@ -59,7 +59,7 @@ export const login = async (req, res) => {
   if (!role) return res.status(404).json({ message: "Role not found" });
 
   try {
-    const user = await User.findOne({ email, role }).select("-password");
+    const user = await User.findOne({ email, role });
     if (!user) return res.status(404).json({ message: "User not found" });
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
@@ -71,39 +71,14 @@ export const login = async (req, res) => {
         .status(403)
         .json({ message: "User not verified by admin" });
 
-   
     generateTokenAndSetCookie(user, res);
 
-    
-    return res.status(200).json({
-      message: "Login successful",
-      user: {
-        id: user._id,
-        email: user.email,
-        role: user.role,
-      },
-    });
+    return res.status(200).json({ message: "Login successful" });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Internal server error" });
   }
 };
-
-// Get current loggeIin user
-export const getMe = async (req, res) => {
-  try {
-    
-    const user = await User.findById(req.user.id).select("-password");
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    res.status(200).json(user);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
-  }
-};
-
 
 // LOGOUT
 export const logout = async (req, res) => {
