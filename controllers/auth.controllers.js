@@ -62,14 +62,16 @@ export const login = async (req, res) => {
     const user = await User.findOne({ email, role });
     if (!user) return res.status(404).json({ message: "User not found" });
 
+    if (!user.password) {
+      return res.status(500).json({ message: "Password not set for this user" });
+    }
+
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid)
       return res.status(403).json({ message: "Incorrect password" });
 
     if (!user.isVerified)
-      return res
-        .status(403)
-        .json({ message: "User not verified by admin" });
+      return res.status(403).json({ message: "User not verified by admin" });
 
     generateTokenAndSetCookie(user, res);
 
@@ -79,6 +81,7 @@ export const login = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+
 
 // LOGOUT
 export const logout = async (req, res) => {
