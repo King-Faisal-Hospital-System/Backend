@@ -1,27 +1,6 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-
-// Utility function to generate JWT and set cookie
-const generateTokenAndSetCookie = (user, res) => {
-  const payload = {
-    id: user._id,
-    email: user.email,
-    role: user.role,
-  };
-
-  const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1d" });
-
-  res.cookie("token", token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    maxAge: 24 * 60 * 60 * 1000, // 1 day
-  });
-
-  return token;
-};
-
+import { generateTokenAndSetCookie } from "../utils/cookie.utils.js"
 // REGISTER
 export const register = async (req, res) => {
   const { fullname, username, email, phone_number, password, role } = req.body;
