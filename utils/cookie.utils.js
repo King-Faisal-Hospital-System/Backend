@@ -12,8 +12,7 @@ export const generateTokenAndSetCookie = (user, res) => {
         return res.cookie("token", token, {
             secure : process.env.NODE_ENV === "production",
             maxAge : 15 * 24 * 60 * 60 * 1000,
-            httpOnly : true,
-            sameSite : "strict"
+            httpOnly : true
         })
     } catch (error) {
         throw new Error(error)
