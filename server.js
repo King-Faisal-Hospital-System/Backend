@@ -15,7 +15,7 @@ import adminRouter from "./routes/admin.routes.js";
 import dashboardRouter from "./routes/dashboard.routes.js";
 import settingsRouter from "./routes/settings.routes.js";
 
-configDotenv()
+configDotenv();
 
 const app = express();
 

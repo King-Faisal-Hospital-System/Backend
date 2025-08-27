@@ -1,0 +1,89 @@
+{
+  "timestamp": "2025-08-27T09:55:23.313Z",
+  "version": "1.0",
+  "database": "kfh_inventory",
+  "collections": {
+    "purchase_orders": [],
+    "users": [
+      {
+        "_id": "68aeb7a0024bdf680b83dacb",
+        "fullname": "Dianah Iranzi",
+        "username": "dianah",
+        "email": "iradianah5@gmail.com",
+        "phone_number": "+250722500692",
+        "password": "$2b$12$YrSMsLLqjDv8ivw8ah/x0.wqonJpSTEhHOeE/AfF8KZw8Pfuz/dfa",
+        "role": "ADMIN",
+        "isVerified": true,
+        "createdAt": "2025-08-27T07:45:36.698Z",
+        "updatedAt": "2025-08-27T09:39:47.347Z",
+        "__v": 0
+      },
+      {
+        "_id": "68aeb81d024bdf680b83dacf",
+        "fullname": "Mugisha Hassan",
+        "username": "hassan",
+        "email": "deborahuwamurera868@gmail.com",
+        "phone_number": "+250788873038",
+        "password": "$2b$12$hbCSa1sQV.lPIU7voVAVlOGNB8thc8vdYDMVeNrGwGDPCVIo47kVq",
+        "role": "ADMIN",
+        "isVerified": true,
+        "createdAt": "2025-08-27T07:47:41.303Z",
+        "updatedAt": "2025-08-27T07:47:41.303Z",
+        "__v": 0
+      },
+      {
+        "_id": "68aec67e5a5a8afc5b7f0ebb",
+        "fullname": "Mucyo Elvin",
+        "username": "elvin",
+        "email": "elvin@gmail.com",
+        "phone_number": "+250788872024",
+        "password": "$2b$12$iNfvzpkwmqt1Trz7iiakM.cH3WvFqebecQoiF89nnfMxuGaVPenFS",
+        "role": "STOCK_MANAGER",
+        "isVerified": false,
+        "createdAt": "2025-08-27T08:49:02.417Z",
+        "updatedAt": "2025-08-27T08:49:02.417Z",
+        "__v": 0
+      }
+    ],
+    "settings": [
+      {
+        "_id": "68aed258a65a77d6c54f5abf",
+        "userId": "68aeb7a0024bdf680b83dacb",
+        "personalInfo": {
+          "name": "Dianah Iranzi",
+          "email": "iradianah5@gmail.com",
+          "phone": "+250 788 123 456",
+          "role": "ADMIN"
+        },
+        "preferences": {
+          "currency": "RWF",
+          "language": "Kinyarwanda",
+          "timezone": "Africa/Kigali",
+          "dateFormat": "DD/MM/YYYY"
+        },
+        "notifications": {
+          "emailNotifications": true,
+          "smsNotifications": false,
+          "lowStockAlerts": true,
+          "expiryAlerts": true
+        },
+        "backupConfig": {
+          "frequency": "Daily",
+          "retentionDays": 30,
+          "location": "Cloud Storage",
+          "autoBackup": true,
+          "backupTime": "02:30"
+        },
+        "createdAt": "2025-08-27T09:39:36.895Z",
+        "updatedAt": "2025-08-27T09:39:47.731Z",
+        "__v": 0
+      }
+    ],
+    "invoices": [],
+    "suppliers": [],
+    "transactions": [],
+    "stocks": [],
+    "reports": [],
+    "issues": []
+  }
+}
