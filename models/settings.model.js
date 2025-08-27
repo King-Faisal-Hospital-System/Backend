@@ -95,8 +95,7 @@ const settingsSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Create index for faster queries
-settingsSchema.index({ userId: 1 });
+
 
 const Settings = mongoose.model("Settings", settingsSchema);
 
