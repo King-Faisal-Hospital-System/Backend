@@ -12,6 +12,7 @@ export const generateTokenAndSetCookie = (user, res) => {
         const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "15d" });
 
         const isProd = process.env.NODE_ENV === "production";
+        console.log("Node Production Mode : ", isProd)
 
         return res.cookie("token", token, {
             httpOnly: true,                        // prevent JS or XSS access

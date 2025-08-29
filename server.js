@@ -21,7 +21,7 @@ const app = express();
 
 const PORT = process.env.PORT || 5000;
 
-const allowedOrigins = [`${process.env.FRONTEND_URL}`, "http://localhost:3000", "https://kfh-stock-manager.onrender.com"]
+const allowedOrigins = [`${process.env.FRONTEND_URL}`, "http://localhost:3000", "https://kfh-inventory-management.onrender.com"]
 app.use(cors({
     origin : (origin, callback) => {
       if(!origin || allowedOrigins.includes(origin)){
