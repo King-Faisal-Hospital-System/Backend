@@ -5,7 +5,7 @@ const settingsSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true,
-    unique: true
+    unique: true // unique index ensures one settings document per user
   },
   personalInfo: {
     name: {
