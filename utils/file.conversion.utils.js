@@ -4,8 +4,7 @@ const convertHtmlToPdfBuffer = async (htmlContent) => {
   let browser;
   try {
     browser = await chromium.launch({
-      headless: true,
-      channel: "chrome", 
+      headless: true, 
       args: [
         "--no-sandbox",
         "--disable-setuid-sandbox",
