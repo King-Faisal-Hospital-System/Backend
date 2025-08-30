@@ -1,5 +1,4 @@
 import puppeteer from "puppeteer";
-import { executablePath } from "puppeteer";
 
 const convertHtmlToPdfBuffer = async (htmlContent) => {
     let browser;
