@@ -3,6 +3,7 @@ import puppeteer from "puppeteer";
 const convertHtmlToPdfBuffer = async (htmlContent) => {
     let browser;
     try {
+        console.log("Using executable : ", puppeteer.executablePath())
         browser = await puppeteer.launch({
             // headless: 'new',
             args: [
