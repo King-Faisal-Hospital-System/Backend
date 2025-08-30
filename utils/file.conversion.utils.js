@@ -1,6 +1,20 @@
-import { chromium } from "playwright";
+import { chromium, firefox, webkit, devices } from "playwright";
+import { execSync } from "child_process";
+
+const ensureBrowsersInstalled = async () => {
+  try {
+    // Check if browsers are already installed
+    await chromium.executablePath();
+  } catch (err) {
+    console.log("Playwright browsers not found. Installing now...");
+    // Install browsers
+    execSync("npx playwright install chromium", { stdio: "inherit" });
+  }
+};
 
 const convertHtmlToPdfBuffer = async (htmlContent) => {
+  await ensureBrowsersInstalled(); // Make sure browsers are installed first
+
   let browser;
   try {
     browser = await chromium.launch({
