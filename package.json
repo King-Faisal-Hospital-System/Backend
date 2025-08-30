@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon server.js",
     "start" : "node server.js",
-    "postinstall": "puppeteer browsers install chrome"
+    "postinstall": "puppeteer browsers install chrome && chmod +x /opt/render/.cache/puppeteer/chrome/linux-*/chrome-linux64/chrome"
   },
   "keywords": [],
   "author": "",
