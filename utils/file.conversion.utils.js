@@ -15,7 +15,7 @@ const convertHtmlToPdfBuffer = async (htmlContent) => {
         "--disable-dev-shm-usage",
         "--disable-gpu",
       ],
-      executablePath: chromePath, // important
+      executablePath: "/usr/bin/chromium-browser"
     });
 
     const page = await browser.newPage();
