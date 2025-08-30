@@ -1,0 +1,593 @@
+{
+  "timestamp": "2025-08-29T11:24:43.612Z",
+  "version": "1.0",
+  "database": "kfh_inventory",
+  "collections": {
+    "purchase_orders": [],
+    "users": [
+      {
+        "_id": "68aeb7a0024bdf680b83dacb",
+        "fullname": "Dianah Iranzi",
+        "username": "dianah",
+        "email": "iradianah5@gmail.com",
+        "phone_number": "+250722500692",
+        "password": "$2b$12$YrSMsLLqjDv8ivw8ah/x0.wqonJpSTEhHOeE/AfF8KZw8Pfuz/dfa",
+        "role": "ADMIN",
+        "isVerified": true,
+        "createdAt": "2025-08-27T07:45:36.698Z",
+        "updatedAt": "2025-08-29T09:49:25.664Z",
+        "__v": 0
+      },
+      {
+        "_id": "68aeb81d024bdf680b83dacf",
+        "fullname": "Mugisha Hassan",
+        "username": "hassan",
+        "email": "deborahuwamurera868@gmail.com",
+        "phone_number": "+250788873038",
+        "password": "$2b$12$hbCSa1sQV.lPIU7voVAVlOGNB8thc8vdYDMVeNrGwGDPCVIo47kVq",
+        "role": "ADMIN",
+        "isVerified": true,
+        "createdAt": "2025-08-27T07:47:41.303Z",
+        "updatedAt": "2025-08-27T07:47:41.303Z",
+        "__v": 0
+      },
+      {
+        "_id": "68aec67e5a5a8afc5b7f0ebb",
+        "fullname": "Mucyo Elvin",
+        "username": "elvin",
+        "email": "elvin@gmail.com",
+        "phone_number": "+250788872024",
+        "password": "$2b$12$iNfvzpkwmqt1Trz7iiakM.cH3WvFqebecQoiF89nnfMxuGaVPenFS",
+        "role": "STOCK_MANAGER",
+        "isVerified": false,
+        "createdAt": "2025-08-27T08:49:02.417Z",
+        "updatedAt": "2025-08-27T08:49:02.417Z",
+        "__v": 0
+      },
+      {
+        "_id": "68aef9381a0f890b3deeb356",
+        "fullname": "Teta Belyse",
+        "username": "belyse",
+        "email": "belyse",
+        "phone_number": "+250 788872028",
+        "password": "$2b$12$fJazVYZVNjwXyumwxz1Nz.U3w0bKcq2AwutfjFZInNza5thC7jIKm",
+        "role": "ADMIN",
+        "isVerified": true,
+        "createdAt": "2025-08-27T12:25:28.835Z",
+        "updatedAt": "2025-08-27T12:25:28.835Z",
+        "__v": 0
+      },
+      {
+        "_id": "68af271a0d845c178b1f803d",
+        "fullname": "Mugisha Prosper",
+        "username": "polo",
+        "email": "nelsonprox92@gmail.com",
+        "phone_number": "+250799999991",
+        "password": "$2b$12$uaZlMljz9ROhq/rgfwisYub802Jfg0cOLx1UA/T305vGnJSKoCREy",
+        "role": "ADMIN",
+        "isVerified": true,
+        "createdAt": "2025-08-27T15:41:14.327Z",
+        "updatedAt": "2025-08-27T15:41:14.327Z",
+        "__v": 0
+      },
+      {
+        "_id": "68af2a2f2bd30569366acd81",
+        "fullname": "Polo One",
+        "username": "polo1",
+        "email": "polo1@gmail.com",
+        "phone_number": "+250798615286",
+        "password": "$2b$12$fU39F/WP9yTVlYjFxqRI8uu1byM.ddxEdNWUtXUTShAuxp0iHCM6C",
+        "role": "ADMIN",
+        "isVerified": true,
+        "createdAt": "2025-08-27T15:54:23.596Z",
+        "updatedAt": "2025-08-27T15:54:23.596Z",
+        "__v": 0
+      },
+      {
+        "_id": "68af6b41defa0e50b151afac",
+        "fullname": "ty ty",
+        "username": "ty",
+        "email": "ty@gmail.com",
+        "phone_number": "+25078123456",
+        "password": "$2b$12$dN93l2DYS2SLBvqcOOm1ReUbdzKT6rH5mCWLNcrN3irf6WnFcPTcW",
+        "role": "STOCK_MANAGER",
+        "isVerified": false,
+        "createdAt": "2025-08-27T20:32:01.454Z",
+        "updatedAt": "2025-08-27T20:32:01.454Z",
+        "__v": 0
+      },
+      {
+        "_id": "68af6bdfdefa0e50b151afb0",
+        "fullname": "Manzi Arthur",
+        "username": "manzi",
+        "email": "manzi@gmail.com",
+        "phone_number": "+250788872023",
+        "password": "$2b$12$hvSNx5xfdlk5wO3dEpv8L.41ePoosD//PLOUViP5HspxyehvSFaJ6",
+        "role": "ADMIN",
+        "isVerified": false,
+        "createdAt": "2025-08-27T20:34:39.456Z",
+        "updatedAt": "2025-08-29T09:49:20.558Z",
+        "__v": 0
+      },
+      {
+        "_id": "68b1628d38f41bc28c4b064c",
+        "fullname": "Test Admin",
+        "username": "admin",
+        "email": "admin@gmail.com",
+        "phone_number": "+250722500123",
+        "password": "$2b$12$WVYQ.sMSQcm8BkzyBSXLueJ3NErBrrmp9XRVQiTgyTD7qRsKAPDmG",
+        "role": "ADMIN",
+        "isVerified": true,
+        "createdAt": "2025-08-29T08:19:25.484Z",
+        "updatedAt": "2025-08-29T11:24:33.403Z",
+        "__v": 0
+      },
+      {
+        "_id": "68b1682109f841903a6102c1",
+        "fullname": "Murenzi Steven",
+        "username": "steven",
+        "email": "steven@gmail.com",
+        "phone_number": "+250722500678",
+        "password": "$2b$12$7eJskwk..DL/M.qlzs217OB01P6dTJ0.WAQMfot9WPd1oedjgunlq",
+        "role": "STOCK_MANAGER",
+        "isVerified": false,
+        "createdAt": "2025-08-29T08:43:13.651Z",
+        "updatedAt": "2025-08-29T08:43:13.651Z",
+        "__v": 0
+      },
+      {
+        "_id": "68b17a4dc2b78e31486a80f8",
+        "fullname": "c c",
+        "username": "c",
+        "email": "c@gmail.com",
+        "phone_number": "+250788870289",
+        "password": "$2b$12$IqhB1.1rT5moxnUnoHXXKuAo0KYga3bOI/3DtReQhKHhHA0t.Dfq.",
+        "role": "STOCK_MANAGER",
+        "isVerified": true,
+        "createdAt": "2025-08-29T10:00:45.140Z",
+        "updatedAt": "2025-08-29T10:01:51.881Z",
+        "__v": 0
+      }
+    ],
+    "settings": [
+      {
+        "_id": "68aed258a65a77d6c54f5abf",
+        "userId": "68aeb7a0024bdf680b83dacb",
+        "personalInfo": {
+          "name": "Dianah Iranzi",
+          "email": "iradianah5@gmail.com",
+          "phone": "+250 788 123 456",
+          "role": "ADMIN"
+        },
+        "preferences": {
+          "currency": "RWF",
+          "language": "English",
+          "timezone": "Africa/Kigali",
+          "dateFormat": "DD/MM/YYYY"
+        },
+        "notifications": {
+          "emailNotifications": true,
+          "smsNotifications": false,
+          "lowStockAlerts": true,
+          "expiryAlerts": true
+        },
+        "backupConfig": {
+          "frequency": "Daily",
+          "retentionDays": 30,
+          "location": "Cloud Storage",
+          "autoBackup": true,
+          "backupTime": "02:30"
+        },
+        "createdAt": "2025-08-27T09:39:36.895Z",
+        "updatedAt": "2025-08-27T12:00:55.662Z",
+        "__v": 0
+      },
+      {
+        "_id": "68b00097860af25d1f3ca890",
+        "userId": "68af2a2f2bd30569366acd81",
+        "personalInfo": {
+          "name": "Polo One",
+          "email": "polo1@gmail.com",
+          "phone": "+250 788 123 456",
+          "role": "ADMIN"
+        },
+        "preferences": {
+          "currency": "RWF",
+          "language": "English",
+          "timezone": "Africa/Kigali",
+          "dateFormat": "DD/MM/YYYY"
+        },
+        "notifications": {
+          "emailNotifications": true,
+          "smsNotifications": false,
+          "lowStockAlerts": true,
+          "expiryAlerts": true
+        },
+        "backupConfig": {
+          "frequency": "Daily",
+          "retentionDays": 30,
+          "location": "Cloud Storage",
+          "autoBackup": true,
+          "backupTime": "02:30"
+        },
+        "createdAt": "2025-08-28T07:09:11.047Z",
+        "updatedAt": "2025-08-28T07:09:11.047Z",
+        "__v": 0
+      },
+      {
+        "_id": "68b163d938f41bc28c4b06b1",
+        "userId": "68b1628d38f41bc28c4b064c",
+        "personalInfo": {
+          "name": "Test Admin",
+          "email": "admin@gmail.com",
+          "phone": "+250 788 123 456",
+          "role": "ADMIN"
+        },
+        "preferences": {
+          "currency": "RWF",
+          "language": "Kinyarwanda",
+          "timezone": "Africa/Kigali",
+          "dateFormat": "DD/MM/YYYY"
+        },
+        "notifications": {
+          "emailNotifications": true,
+          "smsNotifications": false,
+          "lowStockAlerts": true,
+          "expiryAlerts": true
+        },
+        "backupConfig": {
+          "frequency": "Daily",
+          "retentionDays": 30,
+          "location": "Local Storage",
+          "autoBackup": true,
+          "backupTime": "02:30"
+        },
+        "createdAt": "2025-08-29T08:24:57.830Z",
+        "updatedAt": "2025-08-29T11:23:14.756Z",
+        "__v": 0
+      },
+      {
+        "_id": "68b17ad6c2b78e31486a8147",
+        "userId": "68b17a4dc2b78e31486a80f8",
+        "personalInfo": {
+          "name": "c c",
+          "email": "c@gmail.com",
+          "phone": "+250 788 123 456",
+          "role": "STOCK_MANAGER"
+        },
+        "preferences": {
+          "currency": "RWF",
+          "language": "English",
+          "timezone": "Africa/Kigali",
+          "dateFormat": "DD/MM/YYYY"
+        },
+        "notifications": {
+          "emailNotifications": true,
+          "smsNotifications": false,
+          "lowStockAlerts": true,
+          "expiryAlerts": true
+        },
+        "backupConfig": {
+          "frequency": "Daily",
+          "retentionDays": 30,
+          "location": "Cloud Storage",
+          "autoBackup": true,
+          "backupTime": "02:30"
+        },
+        "createdAt": "2025-08-29T10:03:02.789Z",
+        "updatedAt": "2025-08-29T10:03:02.789Z",
+        "__v": 0
+      }
+    ],
+    "invoices": [
+      {
+        "_id": "68b163a038f41bc28c4b06a1",
+        "type": "REGULAR",
+        "purchase_order": "45678",
+        "total_value": 20000,
+        "notes": "Invoices",
+        "status": "PENDING",
+        "createdAt": "2025-08-29T08:24:00.760Z",
+        "updatedAt": "2025-08-29T08:24:00.760Z",
+        "__v": 0
+      },
+      {
+        "_id": "68b1775bc2b78e31486a80dc",
+        "type": "PROFORMA",
+        "purchase_order": "45678",
+        "total_value": 40500,
+        "notes": "Invoice",
+        "status": "PENDING",
+        "createdAt": "2025-08-29T09:48:11.427Z",
+        "updatedAt": "2025-08-29T09:48:22.913Z",
+        "__v": 0
+      }
+    ],
+    "suppliers": [
+      {
+        "_id": "68aeef3c9b13af29cdc31733",
+        "company_name": "PharmaSupplyLtd",
+        "company_email": "pharmasupply@gmail.com",
+        "contact_person": "Mugisa Axel",
+        "company_phone": "+250722500692",
+        "address": "Kigali",
+        "tax_id": "1234567890",
+        "payment_terms": 15,
+        "isVerified": false,
+        "createdAt": "2025-08-27T11:42:52.374Z",
+        "updatedAt": "2025-08-27T11:42:52.374Z",
+        "__v": 0
+      },
+      {
+        "_id": "68b1636338f41bc28c4b0697",
+        "company_name": "MediCoreSupply",
+        "company_email": "medicore@gmail.com",
+        "contact_person": "Murenzi Arthur",
+        "company_phone": "+250722550692",
+        "address": "Nyabihi",
+        "tax_id": "1234567890",
+        "payment_terms": 30,
+        "isVerified": false,
+        "createdAt": "2025-08-29T08:22:59.829Z",
+        "updatedAt": "2025-08-29T08:23:22.779Z",
+        "__v": 0
+      },
+      {
+        "_id": "68b1773ec2b78e31486a80d7",
+        "company_name": "MedicineSupply",
+        "company_email": "medicinesupply@gmail.com",
+        "contact_person": "Murenzi Arthur",
+        "company_phone": "+250722500999",
+        "address": "Nyagatare",
+        "tax_id": "123456",
+        "payment_terms": 15,
+        "isVerified": false,
+        "createdAt": "2025-08-29T09:47:42.654Z",
+        "updatedAt": "2025-08-29T09:47:42.654Z",
+        "__v": 0
+      }
+    ],
+    "transactions": [
+      {
+        "_id": "68b163be38f41bc28c4b06a8",
+        "invoice": "68b163a038f41bc28c4b06a1",
+        "amount": 20000,
+        "method": "MOMO",
+        "status": "PROCESSING",
+        "notes": "Payment",
+        "createdAt": "2025-08-29T08:24:30.527Z",
+        "updatedAt": "2025-08-29T08:24:30.527Z",
+        "__v": 0
+      },
+      {
+        "_id": "68b17781c2b78e31486a80e3",
+        "invoice": "68b1775bc2b78e31486a80dc",
+        "amount": 30000,
+        "method": "AIRTEL_MONEY",
+        "status": "PROCESSING",
+        "notes": "Payment",
+        "createdAt": "2025-08-29T09:48:49.894Z",
+        "updatedAt": "2025-08-29T09:48:49.894Z",
+        "__v": 0
+      }
+    ],
+    "stocks": [
+      {
+        "_id": "68aeef709b13af29cdc3173b",
+        "name": "Paracetamol",
+        "product_name": "Paracetamol",
+        "product_description": "Good",
+        "quantity": 400,
+        "issued": 0,
+        "category": "CAPSULE",
+        "form": "PIECES",
+        "supplier": "68aeef3c9b13af29cdc31733",
+        "batch_number": "001",
+        "expiry_date": "2025-09-06T00:00:00.000Z",
+        "notes": "Yegp",
+        "total_value": 80000,
+        "unit_price": 200,
+        "createdAt": "2025-08-27T11:43:44.720Z",
+        "updatedAt": "2025-08-27T11:43:44.720Z",
+        "__v": 0
+      },
+      {
+        "_id": "68b162e938f41bc28c4b0665",
+        "name": "Aspirin",
+        "product_name": "Aspirin",
+        "product_description": "Good Medicine",
+        "quantity": 45,
+        "issued": 13,
+        "category": "CAPSULE",
+        "form": "PIECES",
+        "supplier": "68aeef3c9b13af29cdc31733",
+        "batch_number": "002",
+        "expiry_date": "2025-10-03T00:00:00.000Z",
+        "notes": "Use it when needed",
+        "total_value": 6400,
+        "unit_price": 200,
+        "createdAt": "2025-08-29T08:20:57.529Z",
+        "updatedAt": "2025-08-29T08:21:34.502Z",
+        "__v": 0
+      },
+      {
+        "_id": "68b175e3c2b78e31486a8087",
+        "name": "Ibuprofen",
+        "product_name": "Ibuprofen",
+        "product_description": "medicine",
+        "quantity": 45,
+        "issued": 0,
+        "category": "SYRUP",
+        "form": "BOTTLES",
+        "supplier": "68b1636338f41bc28c4b0697",
+        "batch_number": "002",
+        "expiry_date": "2025-12-03T00:00:00.000Z",
+        "notes": "Imiti",
+        "total_value": 13500,
+        "unit_price": 300,
+        "createdAt": "2025-08-29T09:41:55.534Z",
+        "updatedAt": "2025-08-29T09:41:55.534Z",
+        "__v": 0
+      },
+      {
+        "_id": "68b176f3c2b78e31486a80bd",
+        "name": "Medicine",
+        "product_name": "Medicine",
+        "product_description": "Good",
+        "quantity": 300,
+        "issued": 0,
+        "category": "TABLETS",
+        "form": "BOXES",
+        "supplier": "68aeef3c9b13af29cdc31733",
+        "batch_number": "002",
+        "expiry_date": "2025-09-29T00:00:00.000Z",
+        "notes": "Good",
+        "total_value": 69000,
+        "unit_price": 230,
+        "createdAt": "2025-08-29T09:46:27.668Z",
+        "updatedAt": "2025-08-29T09:46:27.668Z",
+        "__v": 0
+      }
+    ],
+    "reports": [
+      {
+        "_id": "68aeefe39b13af29cdc317ae",
+        "type": "INVENTORY_REPORT",
+        "name": "INVENTORY_REPORT - 8/27/2025",
+        "status": "PENDING",
+        "createdAt": "2025-08-27T11:45:39.441Z",
+        "updatedAt": "2025-08-27T11:45:39.441Z",
+        "__v": 0
+      },
+      {
+        "_id": "68af14f556942aafbd784fbe",
+        "type": "EXPIRATION_REPORT",
+        "name": "EXPIRATION_REPORT - 8/27/2025",
+        "status": "PENDING",
+        "createdAt": "2025-08-27T14:23:49.559Z",
+        "updatedAt": "2025-08-27T14:23:49.559Z",
+        "__v": 0
+      },
+      {
+        "_id": "68b1632038f41bc28c4b0688",
+        "type": "INVENTORY_REPORT",
+        "name": "INVENTORY_REPORT - 8/29/2025",
+        "status": "PENDING",
+        "createdAt": "2025-08-29T08:21:52.488Z",
+        "updatedAt": "2025-08-29T08:21:52.488Z",
+        "__v": 0
+      },
+      {
+        "_id": "68b1689109f841903a6102ff",
+        "type": "INVENTORY_REPORT",
+        "name": "INVENTORY_REPORT - 8/29/2025",
+        "status": "PENDING",
+        "createdAt": "2025-08-29T08:45:05.346Z",
+        "updatedAt": "2025-08-29T08:45:05.346Z",
+        "__v": 0
+      },
+      {
+        "_id": "68b168cc09f841903a610303",
+        "type": "EXPIRATION_REPORT",
+        "name": "EXPIRATION_REPORT - 8/29/2025",
+        "status": "PENDING",
+        "createdAt": "2025-08-29T08:46:04.714Z",
+        "updatedAt": "2025-08-29T08:46:04.714Z",
+        "__v": 0
+      },
+      {
+        "_id": "68b1692009f841903a610315",
+        "type": "INVENTORY_REPORT",
+        "name": "INVENTORY_REPORT - 8/29/2025",
+        "status": "PENDING",
+        "createdAt": "2025-08-29T08:47:28.333Z",
+        "updatedAt": "2025-08-29T08:47:28.333Z",
+        "__v": 0
+      },
+      {
+        "_id": "68b16a5309f841903a610332",
+        "type": "INVENTORY_REPORT",
+        "name": "INVENTORY_REPORT - 8/29/2025",
+        "status": "PENDING",
+        "createdAt": "2025-08-29T08:52:35.558Z",
+        "updatedAt": "2025-08-29T08:52:35.558Z",
+        "__v": 0
+      },
+      {
+        "_id": "68b170f137dadae29e6b82a7",
+        "type": "INVENTORY_REPORT",
+        "name": "INVENTORY_REPORT - 8/29/2025",
+        "status": "PENDING",
+        "createdAt": "2025-08-29T09:20:49.831Z",
+        "updatedAt": "2025-08-29T09:20:49.831Z",
+        "__v": 0
+      },
+      {
+        "_id": "68b1712237dadae29e6b82b3",
+        "type": "INVENTORY_REPORT",
+        "name": "INVENTORY_REPORT - 8/29/2025",
+        "status": "PENDING",
+        "createdAt": "2025-08-29T09:21:38.651Z",
+        "updatedAt": "2025-08-29T09:21:38.651Z",
+        "__v": 0
+      },
+      {
+        "_id": "68b174bb19f26b31b9a867e1",
+        "type": "INVENTORY_REPORT",
+        "name": "INVENTORY_REPORT - 8/29/2025",
+        "status": "PENDING",
+        "createdAt": "2025-08-29T09:36:59.346Z",
+        "updatedAt": "2025-08-29T09:36:59.346Z",
+        "__v": 0
+      },
+      {
+        "_id": "68b17603c2b78e31486a809d",
+        "type": "EXPIRATION_REPORT",
+        "name": "EXPIRATION_REPORT - 8/29/2025",
+        "status": "PENDING",
+        "createdAt": "2025-08-29T09:42:27.169Z",
+        "updatedAt": "2025-08-29T09:42:27.169Z",
+        "__v": 0
+      },
+      {
+        "_id": "68b176fdc2b78e31486a80d1",
+        "type": "INVENTORY_REPORT",
+        "name": "INVENTORY_REPORT - 8/29/2025",
+        "status": "PENDING",
+        "createdAt": "2025-08-29T09:46:37.981Z",
+        "updatedAt": "2025-08-29T09:46:37.981Z",
+        "__v": 0
+      },
+      {
+        "_id": "68b17ab9c2b78e31486a8123",
+        "type": "INVENTORY_REPORT",
+        "name": "INVENTORY_REPORT - 8/29/2025",
+        "status": "PENDING",
+        "createdAt": "2025-08-29T10:02:33.051Z",
+        "updatedAt": "2025-08-29T10:02:33.051Z",
+        "__v": 0
+      },
+      {
+        "_id": "68b17b4ec2b78e31486a8165",
+        "type": "INVENTORY_REPORT",
+        "name": "INVENTORY_REPORT - 8/29/2025",
+        "status": "PENDING",
+        "createdAt": "2025-08-29T10:05:02.786Z",
+        "updatedAt": "2025-08-29T10:05:02.786Z",
+        "__v": 0
+      }
+    ],
+    "issues": [
+      {
+        "_id": "68b1630e38f41bc28c4b066a",
+        "stock": "68b162e938f41bc28c4b0665",
+        "requestor": "Mucyo Dylan",
+        "notes": "Patient",
+        "quantity": 13,
+        "createdAt": "2025-08-29T08:21:34.504Z",
+        "updatedAt": "2025-08-29T08:21:34.504Z",
+        "__v": 0
+      }
+    ]
+  }
+}

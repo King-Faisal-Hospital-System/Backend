@@ -14,8 +14,8 @@ export const generateStockExpirationReport = async () => {
         const expiredStocks = await Stock.find({ expiry_date: { $lt: now } });
         const template = await generateExpiredStockReportTemplate(expiredStocks);
         const pdf = await convertHtmlToPdfBuffer(template);
-        const url = await uploadReportToCloudinary(pdf)
-        // const url = await uploadReportLocally(pdf, "expired_stock_report");
+        // const url = await uploadReportToCloudinary(pdf)
+        const url = await uploadReportLocally(pdf, "expired_stock_report");
         return url
     } catch (error) {
         throw new Error(error)
@@ -28,8 +28,8 @@ export const generateSupplierReport = async (supplierId) => {
         const supplierStocks = await Stock.find({ supplier : supplierId });
         const template = await generateSupplierReportTemplate(supplier, supplierStocks);
         const pdf = await convertHtmlToPdfBuffer(template);
-        //const url = await uploadReportLocally(pdf, "supplier_report");
-        const url = await uploadReportToCloudinary(pdf)
+        const url = await uploadReportLocally(pdf, "supplier_report");
+        // const url = await uploadReportToCloudinary(pdf)
         return url
     } catch (error) {
         throw new Error(error)
@@ -41,8 +41,8 @@ export const generateInventoryReport = async () => {
         const stocks = await Stock.find();
         const template = await generateInventoryReportTemplate(stocks);
         const pdf = await convertHtmlToPdfBuffer(template);
-        //const url = await uploadReportLocally(pdf, "inventory_report");
-        const url = await uploadReportToCloudinary(pdf)
+        const url = await uploadReportLocally(pdf, "inventory_report");
+        // const url = await uploadReportToCloudinary(pdf)
         return url
     } catch (error) {
         throw new Error(error)
