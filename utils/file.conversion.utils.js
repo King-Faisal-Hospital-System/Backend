@@ -1,4 +1,5 @@
 import puppeteer from "puppeteer";
+import { executablePath } from "puppeteer";
 
 const convertHtmlToPdfBuffer = async (htmlContent) => {
     let browser;
@@ -10,7 +11,8 @@ const convertHtmlToPdfBuffer = async (htmlContent) => {
                 '--disable-setuid-sandbox',
                 '--disable-dev-shm-usage',
                 '--disable-gpu'
-            ]
+            ],
+            executablePath : puppeteer.executablePath()
         });
         
         const page = await browser.newPage();
