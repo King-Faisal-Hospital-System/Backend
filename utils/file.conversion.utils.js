@@ -1,6 +1,6 @@
 import puppeteer from "puppeteer";
 
-export const convertHtmlToPdfBuffer = async (htmlContent) => {
+const convertHtmlToPdfBuffer = async (htmlContent) => {
   let browser;
   try {
     const chromePath = puppeteer.executablePath();
@@ -30,3 +30,5 @@ export const convertHtmlToPdfBuffer = async (htmlContent) => {
     if (browser) await browser.close();
   }
 };
+
+export default convertHtmlToPdfBuffer
