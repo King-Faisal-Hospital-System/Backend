@@ -30,12 +30,11 @@ export const requestReportGeneration = async (req, res) => {
         res.status(200).json({ 
             message: "Report generated successfully", 
             report: report,
-            downloadUrl: `http://localhost:5000${url}`
+            downloadUrl: url
         });
-
     } catch (error) {
         console.log(error);
-        return res.status(500).json({ message: "Internal server error" });
+        return res.status(500).json({ message: "Internal server error", error : error });
     }
 };
 
