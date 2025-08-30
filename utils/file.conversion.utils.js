@@ -1,13 +1,9 @@
-import puppeteer from "puppeteer";
+import { chromium } from "playwright";
 
 const convertHtmlToPdfBuffer = async (htmlContent) => {
   let browser;
   try {
-    const chromePath = puppeteer.executablePath();
-
-    console.log("Resolved Chrome path:", chromePath);
-
-    browser = await puppeteer.launch({
+    browser = await chromium.launch({
       headless: true,
       args: [
         "--no-sandbox",
@@ -15,20 +11,24 @@ const convertHtmlToPdfBuffer = async (htmlContent) => {
         "--disable-dev-shm-usage",
         "--disable-gpu",
       ],
-      executablePath: "/usr/bin/chromium-browser"
     });
 
     const page = await browser.newPage();
-    await page.setContent(htmlContent, { waitUntil: "networkidle0" });
+    await page.setContent(htmlContent, { waitUntil: "networkidle" });
 
-    return await page.pdf({
+    const pdfBuffer = await page.pdf({
       format: "A4",
       printBackground: true,
       margin: { top: "20px", bottom: "20px", left: "20px", right: "20px" },
     });
+
+    return pdfBuffer;
+  } catch (error) {
+    console.error("PDF generation error:", error);
+    throw new Error(`PDF generation failed: ${error.message}`);
   } finally {
     if (browser) await browser.close();
   }
 };
 
-export default convertHtmlToPdfBuffer
+export default convertHtmlToPdfBuffer;
