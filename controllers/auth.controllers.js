@@ -4,6 +4,12 @@ import { generateTokenAndSetCookie } from "../utils/cookie.utils.js"
 // REGISTER
 export const register = async (req, res) => {
   const { fullname, username, email, phone_number, password, role } = req.body;
+  
+  // STOCK_MANAGER registration
+  if (role !== "STOCK_MANAGER") {
+    return res.status(403).json({ message: "Registration is only allowed for Stock Manager role" });
+  }
+  
   try {
     const existingUser = await User.findOne({
       $or: [{ email }, { username }, { phone_number }],
@@ -20,12 +26,12 @@ export const register = async (req, res) => {
       email,
       password: hashedPassword,
       phone_number,
-      role,
-      isVerified: role === "ADMIN" ? true : false,
+      role: "STOCK_MANAGER", 
+      isVerified: false, 
     });
 
     await user.save();
-    return res.status(201).json({ message: "Registered successfully" });
+    return res.status(201).json({ message: "Stock Manager account created successfully. Please wait for admin verification." });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Internal server error" });
