@@ -1,6 +1,20 @@
 import { chromium } from "playwright";
+import { execSync } from "child_process";
 
-export const convertHtmlToPdfBuffer = async (htmlContent) => {
+const ensureBrowsersInstalled = async () => {
+  try {
+    // Check if browsers are already installed
+    await chromium.executablePath();
+  } catch (err) {
+    console.log("Playwright browsers not found. Installing now...");
+    // Install browsers
+    execSync("npx playwright install chromium", { stdio: "inherit" });
+  }
+};
+
+const convertHtmlToPdfBuffer = async (htmlContent) => {
+  await ensureBrowsersInstalled(); // Make sure browsers are installed first
+
   let browser;
   try {
     browser = await chromium.launch({
@@ -16,17 +30,14 @@ export const convertHtmlToPdfBuffer = async (htmlContent) => {
     const page = await browser.newPage();
     await page.setContent(htmlContent, { waitUntil: "networkidle" });
 
-    const pdfBuffer = await page.pdf({
+    return await page.pdf({
       format: "A4",
       printBackground: true,
       margin: { top: "20px", bottom: "20px", left: "20px", right: "20px" },
     });
-
-    return pdfBuffer;
-  } catch (error) {
-    console.error("PDF generation error:", error);
-    throw new Error(`PDF generation failed: ${error.message}`);
   } finally {
     if (browser) await browser.close();
   }
 };
+
+export default convertHtmlToPdfBuffer

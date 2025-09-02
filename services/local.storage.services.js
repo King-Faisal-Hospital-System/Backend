@@ -17,8 +17,9 @@ const uploadReportLocally = async (pdfBuffer, fileName = "report") => {
         // Write PDF buffer to file
         fs.writeFileSync(filePath, pdfBuffer);
 
-        // Return the file path as URL (for local access)
-        return `/reports/${fullFileName}`;
+        // Return the complete URL for frontend access
+        const baseUrl = process.env.BACKEND_URL || 'http://localhost:5000';
+        return `${baseUrl}/reports/${fullFileName}`;
     } catch (error) {
         throw new Error(`Failed to save report locally: ${error.message}`);
     }
