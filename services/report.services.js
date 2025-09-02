@@ -4,8 +4,7 @@ import Supplier from "../models/supplier.model.js";
 import generateExpiredStockReportTemplate from "../templates/expiredStockReport.template.js";
 import generateInventoryReportTemplate from "../templates/inventoryReport.template.js";
 import generateSupplierReportTemplate from "../templates/supplierReport.template.js";
-import convertHtmlToPdfBuffer from "../utils/file.conversion.utils.js";
-import uploadReportLocally from "./local.storage.services.js"
+import {convertHtmlToPdfBuffer} from "../utils/file.conversion.utils.js";
 import uploadReportToCloudinary from "./cloudinary.services.js"
 
 export const generateStockExpirationReport = async () => {

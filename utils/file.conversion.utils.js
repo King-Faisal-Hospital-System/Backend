@@ -1,6 +1,6 @@
 import { chromium } from "playwright";
 
-const convertHtmlToPdfBuffer = async (htmlContent) => {
+export const convertHtmlToPdfBuffer = async (htmlContent) => {
   let browser;
   try {
     browser = await chromium.launch({
@@ -30,5 +30,3 @@ const convertHtmlToPdfBuffer = async (htmlContent) => {
     if (browser) await browser.close();
   }
 };
-
-export default convertHtmlToPdfBuffer;
