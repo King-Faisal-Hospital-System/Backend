@@ -28,6 +28,8 @@ RUN npm install
 # Install Playwright browsers
 RUN npx playwright install chromium
 
+RUN npx playwright install-deps
+
 # Copy rest of the project
 COPY . .
 
